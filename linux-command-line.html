@@ -1,0 +1,53 @@
+<meta charset="utf-8">
+
+<h1>Linux and the command line</h1>
+
+<h2>The default shell</h2>
+
+<p>The user's shell (the program that accepts and executes commands)
+is selected during the account request process. Most users are using
+the default shell, <a href="http://en.wikipedia.org/wiki/Bash_(Unix_shell)">"bash."</a></p>
+
+<p>When you log in you may see a basic shell prompt: <code>-bash-2.11 $</code></p>
+
+<p>You can customize the prompt by setting the <code>PS1</code>
+environment variable. Some examples are listed here; but you can find
+more examples online, or construct your own by consulting the bash
+manpage.</p>
+
+<dl>
+  <dt>Black username, Blue host, Green working directory</dt>
+  <dd><code>PS1="[\[\e[0;30m\]\u\[\e[0;31m\]@\[\e[0;34m\]\h \[\e[0;32m\]\W]\$\[\e[0m\] "</code></dd>
+  <dt>A simple blue prompt with the time of day, user@host, working directory:</dt>
+  <dd><code>PS1="\[\033[1;34m\][\$(date +%H:%M)][\u@\h:\w]$\[\033[0m\] "</code></dd>
+</dl>
+
+<p>When a user logs in interactively and starts a Bash shell, a number
+of scripts are executed automatically. Users typically edit these
+scripts in their home directory to set up their environment upon
+login. In the RC environment, edit the .my.xxx version of these files,
+which is done for portability.</p>
+
+<dl>
+  <dt><code>.my.bash_profile</code></dt>
+  <dd>this is executed for login shells</dd>
+  <dt><code>.my.bashrc</code></dt>
+  <dd>executed for non-login shells (thus not re-executed if you invoke a second shell)</dd>
+  <dt><code>.my.logout</code></dt>
+  <dd>executed at logout</dd>
+</dl>
+
+<p>In some cases, it may be appropriate to record all configuration
+in <code>.my.bashrc</code> and "source" <code>.my.bashrc</code>
+from <code>.my.bash_profile</code>.</p>
+
+<p>It is possible to add modules to your .my.bashrc or
+.my.bash_profile, but this can be dangerous. In the RC environment it
+is very important to be aware that your jobs will run in a different
+environment from the one you set up for your interactive login
+shell. Your job scripts must be written to load relevant modules as
+needed.</p>
+
+<p>If you would like to change your shell, please send us an email
+at <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>, and
+tell us your username and shell of choice.</a></p>
