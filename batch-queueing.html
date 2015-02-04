@@ -1,0 +1,250 @@
+<meta charset="utf-8">
+
+<p>Research Computing uses a system
+called <a href="http://slurm.schedmd.com">Slurm</a> to manage compute
+resources and to schedule jobs that use them. (For those familiar with
+previous generations of the RC environment, Slurm has replaced Torque
+and Moab.) Users use Slurm commands to submit batch and interactive
+jobs and to monitor their progress during execution.</p>
+
+<h2>Batch jobs</h2>
+
+<p>Slurm is primarily a resource manager for batch jobs: a user writes
+a job script that slurm schedules to run non-interactively when
+resources are available.</p> Users primarily submit computational jobs
+to the slurm queue using the <code>sbatch</code> command.</p>
+
+<code><pre>$ sbatch job-script.sh</pre></code>
+
+<h2>Job mail</h2>
+
+<p>Slurm can be configured to send email notifications as a job
+executes. This is configured using the <code>--mail-type</code>
+and <code>--mail-user</code> arguments.</p>
+
+<code><pre>#SBATCH --mail-type=END
+#SBATCH --mail-user=user@example.com</pre></code>
+
+<p>The <code>--mail-type</code> configures what points during job
+execution should generate notifications. Valid values
+include <code>BEGIN</code>, <code>END</code>, <code>FAIL</code>,
+and <code>ALL</code>.</p>
+
+
+<h2>Quality-of-service (QOS) values</h2>
+
+<p>The Research Computing environment uses quality-of-service, or QOS,
+values to classify jobs for scheduling on targeted resources or for
+specific prioritization. This parallels distinct queues seen in other
+  queueing systems, as Slurm uses a single queue.</p>
+
+<p>When submitting a job, you can select the QOS to use with
+the <code>--qos</code> argument.</p>
+
+<code><pre>#SBATCH --qos janus-debug</pre></code>
+
+<table>
+  <thead>
+    <tr>
+      <th>QOS</th>
+      <th>walltime limit</th>
+      <th>job limit</th>
+      <th>node limit</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tfoot/>
+  <tbody>
+    <tr>
+      <td>janus</td>
+      <td>24 hours</td>
+      <td/>
+      <td>480 nodes/job</td>
+      <td>Janus compute nodes (default)</td>
+    </tr>
+    <tr>
+      <td>janus-long</td>
+      <td>7 days</td>
+      <td/>
+      <td>40 nodes/user, 80 nodes total</td>
+      <td>Janus compute nodes for long jobs</td>
+    </tr>
+    <tr>
+      <td>janus-debug</td>
+      <td>1 hour</td>
+      <td>2 running jobs/user, 4 queued (total) jobs/user</td>
+      <td/>
+      <td>Janus compute nodes for interactive debugging</td>
+    </tr>
+    <tr>
+      <td>himem</td>
+      <td>14 days</td>
+      <td/>
+      <td/>
+      <td>high-memory nodes</td>
+    </tr>
+    <tr>
+      <td>crestone</td>
+      <td>14 days</td>
+      <td/>
+      <td>10 nodes/user</td>
+      <td>serial / blade center nodes</td>
+    </tr>
+    <tr>
+      <td>gpu</td>
+      <td>4 hours</td>
+      <td>2 running jobs/user</td>
+      <td/>
+      <td>GPU-accellerated nodes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Dedicated nodes for serial jobs</h2>
+
+<p>Sometimes Janus nodes have InfiniBand network problems that reduce
+their performance or ability to support parallel jobs.  When we detect
+such problems, we reserve these slow-communicating nodes using
+the <code>janus-serial</code> reservation.</p>
+
+<p>If your job requires only a single node, you can access these
+resources using the <code>--reservation</code> option in
+your <code>sbatch</code> script or on the command-line.</p>
+
+<code>#SBATCH --reservation=janus-serial</code>
+
+<p>Because jobs using the <code>janus-serial</code> reservation do not
+compete for nodes with the majority of jobs, you may experience
+shorter queue wait times when using <code>janus-serial</code>.</p>
+
+<p>If you run a job on this reservation and see that it fails or does
+not run as fast as it should, you should not be running that job on
+this reservation. Stability is not guaranteed for multi-node jobs, but
+we know a lot of users have smaller jobs so we want to use as much of
+Janus as possible.</p>
+
+<h2>squeue</h2>
+
+<h2>scontrol show job</h2>
+
+<h2>scontrol show partition</h2>
+
+<h2><code>$SLURM_SCRATCH</code></h2>
+
+<p>There is a folder created in <code>/local/scratch</code> for all
+jobs. This folder is based off of the job's ID and will be removed
+when the job finishes. You can access this folder in your scripts with
+the environment variable <code>$SLURM_SCRATCH</code> or with the path
+<code>/local/scratch/$SLURM_JOB_ID</code>.</p>
+
+<h2>Node sharing</h2>
+
+<p>"himem" and "crestone" nodes nodes are shared, meaning each such
+node may execute multiple jobs simutaneously, even from different
+users. All other nodes will only execute a single job each. This means
+that most jobs must allocate a minum of one whole node. Please plan
+your jobs accordingly to use the entire node and minimizing resource
+waste. (For assistance, please
+contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.)</p>
+
+<h2>Memory limits</h2>
+
+<p>To better balance the allocation of memory to CPUs (for example, to
+prevent users from letting their jobs use all the memory on a shared
+node while only requesting a single CPU), we have limited each CPU to
+a fixed amount of memory. This limit is dependent on the requested
+node. You can either specify how much memory you need in MB and let
+Slurm assign the correct number of CPUs, or you can properly set the
+number of CPUs and memory that your job will need.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Node type</th>
+      <th>per-CPU limit</th>
+      <th>per-node limit</th>
+    </tr>
+  </thead>
+  <tfoot/>
+  <tbody>
+    <tr>
+      <td>janus*</td>
+      <td>none</td>
+      <td>20,400 MiB</td>
+    </tr>
+    <tr>
+      <td>himem{01,02,04}</td>
+      <td>13,056 MiB</td>
+    </tr>
+    <tr>
+      <td>himem03</td>
+      <td>8,141 MiB</td>
+    </tr>
+    <tr>
+      <td>crestone</td>
+      <td>3,942 MiB</td>
+    </tr>
+    <tr>
+      <td>gpu</td>
+      <td>none</td>
+      <td>12,9183 MiB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Interactive jobs</h2>
+
+<p>Interactive jobs are commonly run with the <code>janus-debug</code>
+QOS as part of an interactive programming and debugging workflow.</p>
+
+<p>Use <a href="https://github.com/jabl/sinteractive">the <code>sinteractive</code>
+script</a>, available in the slurm module, to start an interactive
+session with X11 forwarding also available.</p>
+
+<code><pre>sinteractive --qos janus-debug</pre></code>
+
+<p>The following command starts a single node interactive job ($SHELL)
+in the debug partition:</p>
+
+<code><pre>salloc --qos janus-debug</pre></code>
+
+<p>The <code>salloc</code> command is configured, by default, to
+connect to the allocated node and execute your default shell.</p>
+
+<code><pre>scontrol show config | grep ^SallocDefaultCommand
+SallocDefaultCommand    = srun --ntasks-per-node=1 -N1 --mem-per-cpu=0 --pty --preserve-env $SHELL</pre></code>
+
+<p>The <code>sinteractive</code> and <code>salloc</code> commands each
+support the same parameters as sbatch, and can override any default
+configuration.</p>
+
+<h2>PBS compatibility</h2>
+
+<p>The <code>slurm</code> module provides a set of wrapper scripts to
+provide basic compatibility with the PBS interface.</p>
+
+<p>The PBS directive <code>#PBS -j oe</code>, when used in a job
+script and submitted with <code>qsub</code>, results in an error
+message and the job is not submitted. This is a known issue; if you
+leave off the <code>oe</code> you should get the expected
+behavior.</p>
+
+<p>The PBS directive <code>#PBS -q $qos</code>, when used in a job
+script and submitted with <code>qsub</code>, results in an error
+message and the job is not submitted. This is because Slurm is using a
+QOS instead of a queue. Either select the desired QOS using <code>qsub
+-q</code> on the command-line or use the <code>#SBATCH
+--qos=$qos</code> directive in your job script. (<code>#SBATCH</code>
+and <code>#PBS</code> directives can be mixed in the same job
+script.)</p>
+
+<h2>Errata</h2>
+
+<p>Users may sometimes encounter the following message in their job
+output:</p>
+
+<code><pre>slurmstepd: task/cgroup: unable to remove step memcg : No such file or directory ?</pre></code>
+
+<p>This message results from an issue with the way slurm cleans up the
+job. We are working on fixing the issue but for now it is safe to
+ignore this warning.</p>
