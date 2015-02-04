@@ -1,0 +1,19 @@
+## Style guide
+
+* Each major topic (as defined by a top-level entry in the outline)
+  should be a single HTML page.
+
+* Each topic page should include an introductory or summary section
+  before any subheddings.
+
+* All detail (non-introductory) information on a page should be headed
+  by an &lt;h2&gt; element.
+
+* Example commands meant to be entered on the command line should be
+  prepended with the prompt '$ '.
+
+* Anything meant to be typed directly should be enclosed in a
+  &lt;code&gt; element.
+
+* Links / hrefs should be embedded in regular text whenever
+  appropriate, rather than in a separate "see also" statement.

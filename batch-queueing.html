@@ -12,9 +12,22 @@ jobs and to monitor their progress during execution.</p>
 <p>Slurm is primarily a resource manager for batch jobs: a user writes
 a job script that slurm schedules to run non-interactively when
 resources are available.</p> Users primarily submit computational jobs
-to the slurm queue using the <code>sbatch</code> command.</p>
+to the slurm queue using
+the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
+command.</p>
 
 <code><pre>$ sbatch job-script.sh</pre></code>
+
+<p><code>sbatch</code> takes a number of command-line arguments. These
+arguments can be supplied on the command-line...</p>
+
+<code><pre>$ sbatch --ntasks 16 job-script.sh</pre></code>
+
+<p>Or embedded in the header of the job script itself
+using <code>#SBATCH</code> directives.</p>
+
+<code><pre>#!/bin/bash
+#SBATCH --ntasks 16</pre></code>
 
 <h2>Job mail</h2>
 
@@ -31,12 +44,12 @@ include <code>BEGIN</code>, <code>END</code>, <code>FAIL</code>,
 and <code>ALL</code>.</p>
 
 
-<h2>Quality-of-service (QOS) values</h2>
+<h2>Quality of service (QOS)</h2>
 
 <p>The Research Computing environment uses quality-of-service, or QOS,
 values to classify jobs for scheduling on targeted resources or for
 specific prioritization. This parallels distinct queues seen in other
-  queueing systems, as Slurm uses a single queue.</p>
+queueing systems, as Slurm uses a single queue.</p>
 
 <p>When submitting a job, you can select the QOS to use with
 the <code>--qos</code> argument.</p>
@@ -50,6 +63,7 @@ the <code>--qos</code> argument.</p>
       <th>walltime limit</th>
       <th>job limit</th>
       <th>node limit</th>
+      <th>priority</th>
       <th>description</th>
     </tr>
   </thead>
@@ -60,6 +74,7 @@ the <code>--qos</code> argument.</p>
       <td>24 hours</td>
       <td/>
       <td>480 nodes/job</td>
+      <td>0</td>
       <td>Janus compute nodes (default)</td>
     </tr>
     <tr>
@@ -67,6 +82,7 @@ the <code>--qos</code> argument.</p>
       <td>7 days</td>
       <td/>
       <td>40 nodes/user, 80 nodes total</td>
+      <td>200</td>
       <td>Janus compute nodes for long jobs</td>
     </tr>
     <tr>
@@ -74,6 +90,7 @@ the <code>--qos</code> argument.</p>
       <td>1 hour</td>
       <td>2 running jobs/user, 4 queued (total) jobs/user</td>
       <td/>
+      <td>400</td>
       <td>Janus compute nodes for interactive debugging</td>
     </tr>
     <tr>
@@ -81,6 +98,7 @@ the <code>--qos</code> argument.</p>
       <td>14 days</td>
       <td/>
       <td/>
+      <td>0</td>
       <td>high-memory nodes</td>
     </tr>
     <tr>
@@ -88,6 +106,7 @@ the <code>--qos</code> argument.</p>
       <td>14 days</td>
       <td/>
       <td>10 nodes/user</td>
+      <td>0</td>
       <td>serial / blade center nodes</td>
     </tr>
     <tr>
@@ -95,6 +114,7 @@ the <code>--qos</code> argument.</p>
       <td>4 hours</td>
       <td>2 running jobs/user</td>
       <td/>
+      <td>0</td>
       <td>GPU-accellerated nodes</td>
     </tr>
   </tbody>
@@ -197,9 +217,10 @@ number of CPUs and memory that your job will need.</p>
 <p>Interactive jobs are commonly run with the <code>janus-debug</code>
 QOS as part of an interactive programming and debugging workflow.</p>
 
-<p>Use <a href="https://github.com/jabl/sinteractive">the <code>sinteractive</code>
-script</a>, available in the slurm module, to start an interactive
-session with X11 forwarding also available.</p>
+<p>Use
+the <a href="https://github.com/jabl/sinteractive"><code>sinteractive</code></a>
+script, available in the slurm module, to start an interactive session
+with X11 forwarding also available.</p>
 
 <code><pre>sinteractive --qos janus-debug</pre></code>
 
