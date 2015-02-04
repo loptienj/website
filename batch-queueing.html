@@ -222,17 +222,17 @@ the <a href="https://github.com/jabl/sinteractive"><code>sinteractive</code></a>
 script, available in the slurm module, to start an interactive session
 with X11 forwarding also available.</p>
 
-<code><pre>sinteractive --qos janus-debug</pre></code>
+<code><pre>$ sinteractive --qos janus-debug</pre></code>
 
 <p>The following command starts a single node interactive job ($SHELL)
 in the debug partition:</p>
 
-<code><pre>salloc --qos janus-debug</pre></code>
+<code><pre>$ salloc --qos janus-debug</pre></code>
 
 <p>The <code>salloc</code> command is configured, by default, to
 connect to the allocated node and execute your default shell.</p>
 
-<code><pre>scontrol show config | grep ^SallocDefaultCommand
+<code><pre>$ scontrol show config | grep ^SallocDefaultCommand
 SallocDefaultCommand    = srun --ntasks-per-node=1 -N1 --mem-per-cpu=0 --pty --preserve-env $SHELL</pre></code>
 
 <p>The <code>sinteractive</code> and <code>salloc</code> commands each
