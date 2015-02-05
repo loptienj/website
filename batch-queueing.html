@@ -7,6 +7,10 @@ previous generations of the RC environment, Slurm has replaced Torque
 and Moab.) Users use Slurm commands to submit batch and interactive
 jobs and to monitor their progress during execution.</p>
 
+<p>Access to Slurm is provided by the <code>slurm</code> module.</p>
+
+<code><pre>$ module load slurm</pre></code>
+
 <h2>Batch jobs</h2>
 
 <p>Slurm is primarily a resource manager for batch jobs: a user writes
@@ -28,6 +32,25 @@ using <code>#SBATCH</code> directives.</p>
 
 <code><pre>#!/bin/bash
 #SBATCH --ntasks 16</pre></code>
+
+<h3>Example batch job script: <code>hello-world.sh</code></h3>
+
+<code><pre>#!/bin/bash
+
+#SBATCH --ntasks 1
+#SBATCH --output hello-world.out
+#SBATCH --qos janus-debug
+
+echo "Running on $(hostname --fqdn):
+echo 'Hello, world!'</pre></code>
+
+<p>This minimal example job script, <code>hello-world.sh</code>, when
+submitted with <code>sbatch</code>, writes the name of the cluster
+node on which the job ran, along with the standard programmer's
+greeting, "Hello, world!", into the output
+file <code>hello-world.out</code></p>
+
+<code><pre>$ sbatch hello-world.sh</pre></code>
 
 <h2>Job mail</h2>
 
@@ -143,7 +166,20 @@ this reservation. Stability is not guaranteed for multi-node jobs, but
 we know a lot of users have smaller jobs so we want to use as much of
 Janus as possible.</p>
 
-<h2>squeue</h2>
+<h2>Monitoring job progress</h2>
+
+<h3><code>squeue</code></h3>
+
+<p>The <code><a href="http://slurm.schedmd.com/squeue.html">squeue</a></code>
+command can be used to inspect the the Slurm job queue and a job's
+progress through it.</p>
+
+<p>By default, <code>squeue</code> will list all jobs currently queued
+by all users. This is useful for inspecting the position of one's jobs
+in the queue; but, more often, users simply want to inspect the
+current state of their own jobs.</p>
+
+<code><pre>squeue -u $USER</pre></code>
 
 <h2>scontrol show job</h2>
 
