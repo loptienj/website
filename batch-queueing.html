@@ -256,13 +256,12 @@ command.</p>
 
 <code><pre>scontrol show job $SLURM_JOB_ID</pre></code>
 
-<h2><code>$SLURM_SCRATCH</code></h2>
+<h2>Temporary local scratch storage</h2>
 
-<p>There is a folder created in <code>/local/scratch</code> for all
-jobs. This folder is based off of the job's ID and will be removed
-when the job finishes. You can access this folder in your scripts with
-the environment variable <code>$SLURM_SCRATCH</code> or with the path
-<code>/local/scratch/$SLURM_JOB_ID</code>.</p>
+<p>Slurm will create a node-local scratch directory for use by each
+job. The location and characteristics of this directory is
+resource-dependent, but it can be accessed using
+the <code>$SLURM_SCRATCH</code> environment variable.</p>
 
 <h2>Node sharing</h2>
 
