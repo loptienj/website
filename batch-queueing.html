@@ -104,6 +104,42 @@ contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.)</p>
 the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
 command.</p>
 
+<h2>Job arrays</h2>
+
+<p><a href="http://slurm.schedmd.com/job_array.html">Job arrays</a>
+provide a mechnaism for running several instances of the same job with
+minor variations.</p>
+
+<p>Job arrays are submitted using <code>sbatch</code>, similar to
+standard batch jobs.</p>
+
+<code><pre>sbatch --array=[0-9] job-script.sh</pre></code>
+
+<p>Each job in the array will have access to
+a <code>$SLURM_ARRAY_TASK_ID</code> set to the value that represents
+that job's position in the array. By consulting this variable, the
+running job can perform the appropriate variant task.</p>
+
+<h3>Example array job script: <code>hello-world.sh</code></h3>
+
+<code><pre>#!/bin/bash
+
+#SBATCH --array 0-9
+#SBATCH --ntasks 1
+#SBATCH --output array-job.out
+#SBATCH --open-mode append
+#SBATCH --qos janus-debug
+
+echo "$(hostname --fqdn): index ${SLURM_ARRAY_TASK_ID}"</pre></code>
+
+<p>This minimal example job script, <code>array-job.sh</code>, when
+submitted with <code>sbatch</code>, submits ten jobs with indexes 0
+through 9. Each job appends the name of the cluster node on which the
+job ran, along with the job's array index, into the output
+file <code>array-job.out</code></p>
+
+<code><pre>$ sbatch array-job.sh</pre></code>
+
 <h2>Accounts</h2>
 
 <p>Access to computational resources is moderated by finite
