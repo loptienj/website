@@ -96,6 +96,26 @@ execution.</p>
 the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
 command.</p>
 
+<h2>Accounts</h2>
+
+<p>Access to computational resources is moderated by finite
+allocations made to Slurm accounts. You can determine your default
+account using
+the <code><a href="http://slurm.schedmd.com/sacctmgr.html">saccountmgr</a></code>
+command.</p>
+
+<code><pre>$ sacctmgr list Users Users=$USER format=DefaultAccount</pre></code>
+
+<p>Use the <code>--account</code> argument to submit a job for an
+account other than your default.</p>
+
+<code><pre>#SBATCH --account=crcsupport</pre></code>
+
+<p>You can use the <code>sacctmgr</code> command to list your
+available accounts.</p>
+
+<code><pre>$ sacctmgr list Associations Users=$USER format=Account</pre></code>
+
 <h2>Job mail</h2>
 
 <p>Slurm can be configured to send email notifications as a job
