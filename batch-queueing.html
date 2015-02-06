@@ -233,8 +233,6 @@ Janus as possible.</p>
 
 <h2>Monitoring job progress</h2>
 
-<h3><code>squeue</code></h3>
-
 <p>The <code><a href="http://slurm.schedmd.com/squeue.html">squeue</a></code>
 command can be used to inspect the the Slurm job queue and a job's
 progress through it.</p>
@@ -244,11 +242,19 @@ by all users. This is useful for inspecting the position of one's jobs
 in the queue; but, more often, users simply want to inspect the
 current state of their own jobs.</p>
 
-<code><pre>squeue -u $USER</pre></code>
+<code><pre>$ squeue --user=$USER</pre></code>
 
-<h2>scontrol show job</h2>
+<p>Slurm can provide an estimate of when your jobs will start, along
+with what resources it expects to dispatch your jobs to.</p>
 
-<h2>scontrol show partition</h2>
+<code><pre>$ squeue --user=$USER --start</pre></code>
+
+<p>More detailed information about a specific job can be accessed
+using
+the <code><a href="http://slurm.schedmd.com/scontrol.html">scontrol</a></code>
+command.</p>
+
+<code><pre>scontrol show job $SLURM_JOB_ID</pre></code>
 
 <h2><code>$SLURM_SCRATCH</code></h2>
 
