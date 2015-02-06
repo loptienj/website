@@ -316,29 +316,33 @@ number of CPUs and memory that your job will need.</p>
 <h2>Interactive jobs</h2>
 
 <p>Interactive jobs are commonly run with the <code>janus-debug</code>
-QOS as part of an interactive programming and debugging workflow.</p>
-
-<p>Use
+QOS as part of an interactive programming and debugging workflow. The
+simplest way to establish an interactive session is to use
 the <a href="https://github.com/jabl/sinteractive"><code>sinteractive</code></a>
-script, available in the slurm module, to start an interactive session
-with X11 forwarding also available.</p>
+script, available in the slurm module.</p>
 
 <code><pre>$ sinteractive --qos janus-debug</pre></code>
 
-<p>The following command starts a single node interactive job ($SHELL)
-in the debug partition:</p>
+<p>The <code>sinteractive</code> script will open a login shell on the
+first allocated node, and supports X11 forwarding via the submission host.</p>
 
-<code><pre>$ salloc --qos janus-debug</pre></code>
+<p>If you prefer to submit an existing job script or other executable
+as an interactive job, use
+the <code><a href="http://slurm.schedmd.com/salloc.html">salloc</a></code>
+command.</p>
 
-<p>The <code>salloc</code> command is configured, by default, to
-connect to the allocated node and execute your default shell.</p>
+<code><pre>$ salloc --qos janus-debug job-script.sh</pre></code>
 
-<code><pre>$ scontrol show config | grep ^SallocDefaultCommand
-SallocDefaultCommand    = srun --ntasks-per-node=1 -N1 --mem-per-cpu=0 --pty --preserve-env $SHELL</pre></code>
+<p>If you do not provide a command to execute, <code>salloc</code> is
+configured to execute your default shell, similar to
+the <code>sinteractive</code> script.</p>
 
 <p>The <code>sinteractive</code> and <code>salloc</code> commands each
 support the same parameters as sbatch, and can override any default
-configuration.</p>
+configuration. Note that any <code>#SBATCH</code> directives in your
+job script will not be interpreted by <code>salloc</code> when it is
+executed in this way. You must specify all arguments directly on the
+command line.</p>
 
 <h2>PBS compatibility</h2>
 
