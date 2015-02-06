@@ -92,6 +92,14 @@ terminated.</p>
 requirements lead to shorter wait times, and overall faster job
 execution.</p>
 
+<p>"himem" and "crestone" nodes nodes are shared, meaning each such
+node may execute multiple jobs simutaneously, even from different
+users. All other nodes will only execute a single job each. This means
+that most jobs must allocate a minum of one whole node. Please plan
+your jobs accordingly to use the entire node and minimizing resource
+waste. (For assistance, please
+contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.)</p>
+
 <p>Additional job parameters are documented with
 the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
 command.</p>
@@ -262,16 +270,6 @@ command.</p>
 job. The location and characteristics of this directory is
 resource-dependent, but it can be accessed using
 the <code>$SLURM_SCRATCH</code> environment variable.</p>
-
-<h2>Node sharing</h2>
-
-<p>"himem" and "crestone" nodes nodes are shared, meaning each such
-node may execute multiple jobs simutaneously, even from different
-users. All other nodes will only execute a single job each. This means
-that most jobs must allocate a minum of one whole node. Please plan
-your jobs accordingly to use the entire node and minimizing resource
-waste. (For assistance, please
-contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.)</p>
 
 <h2>Memory limits</h2>
 
