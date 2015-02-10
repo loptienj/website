@@ -1,0 +1,184 @@
+<meta charset="utf-8">
+
+<h2>Janus</h2>
+
+<p>The Janus supercomputer is a Linux compute cluster capable of 184
+  TFLOPS (trillion floating-point operations per second). Funding for
+  Janus was provided by the <a href="http://www.nsf.gov">National
+  Science Foundation</a> (MRI
+  grant <a href="http://www.nsf.gov/awardsearch/showAward?AWD_ID=0821794">CNS-0821794</a>),
+  the <a href="http://www.colorado.edu">University of Colorado
+  Boulder</a>, and the <a href="https://ncar.ucar.edu">National Center
+  for Atmospheric Research</a>.</p>
+
+<table>
+  <tr>
+    <th>Operating system</th>
+    <td><a href="http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">Red
+    Hat Enterprise Linux</a> 6</td>
+  </tr>
+  <tr>
+    <th>Compute nodes</th>
+    <td>1,368 total in 342 quad-node chassis</td>
+  </tr>
+  <tr>
+    <th>Compute cores</th>
+    <td>16,416 total,
+      two <a href="http://ark.intel.com/products/47921/Intel-Xeon-Processor-X5660-12M-Cache-2_80-GHz-6_40-GTs-Intel-QPI">Intel
+      Xeon X5660</a> (6*2.8GHz "Westmere") processors per node</td>
+  </tr>
+  <tr>
+    <th>System memory</th>
+    <td>32 TiB total, 24 GiB per node, 2 GiB per
+      core<sup><a href="#fn1" id="ref1">1</a></sup></td>
+  </tr>
+  <tr>
+    <th>Parallel storage</th>
+    <td>800 TB high-performance Lustre scratch filesystem</td>
+  <tr>
+    <th>Primary interconnect</th>
+    <td><a href="http://www.mellanox.com">Mellanox</a> QDR (40 Gbps)
+       InfiniBand in a non-blocking fat-tree topology</td>
+  </tr>
+  <tr>
+    <th>Ethernet</th>
+    <td>Dell PowerConnect 10 GbE with connectivity to the CU Science
+      Network</td>
+  </tr>
+</table>
+
+<ol>
+  <li id="fn1">The system image consumes about 4 GiB per node, leaving
+  about 20 GiB free.<a href="#ref1">↩</a></li>
+</ol>
+
+<p>Access to Janus requires a <a href="quick-start.html">Research
+Computing account</a> and a supporting PI or faculty member who agrees
+to abide by the relevant export control requirements.</p>
+
+<h2>Crestone</h2>
+
+<p>Crestone is
+a <a href="http://www.dell.com/us/business/p/poweredge-m1000e/pd">Dell
+PowerEdge M1000e Blade system</a> and is provided for jobs requiring
+more memory or longer runtimes than are available on Janus. This
+system is intended for single-node jobs and does not have access to a
+high-speed, low-latency network interconnect.</p>
+
+<table>
+  <tr>
+    <th>Operating system</th>
+    <td><a href="http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">Red
+    Hat Enterprise Linux</a> 6</td>
+  </tr>
+  <tr>
+    <th>Compute nodes</th>
+    <td>16</td>
+  </tr>
+  <tr>
+    <th>Compute cores</th>
+    <td>192 total,
+    two <a href="http://ark.intel.com/products/47921/Intel-Xeon-Processor-X5660-12M-Cache-2_80-GHz-6_40-GTs-Intel-QPI">Intel
+    Xeon X5660</a> (6x2.8 GHz "Westmere") processors per node,
+    <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/hyper-threading/hyper-threading-technology.html">Hyper-Threading</a>
+    enabled</td>
+  </tr>
+  <tr>
+    <th>System memory</th>
+    <td>1,536 GiB total, 96 GiB per node</td>
+  </tr>
+  <tr>
+    <th>Local storage</th>
+    <td>2 TB hard disk per node</td>
+  </tr>
+</table>
+
+<p>Crestone nodes are accessed via the <code>crestone</code> QOS.</p>
+
+<h2>Blanca</h2>
+
+<p>Blanca is a condo system providing access to dedicated nodes
+individually purchased by users.</p>
+
+<h2>Himem</h2>
+
+<p>There are 3 high-memory ("himem") nodes available. These nodes are
+available for use by the general community, but priority is given to
+departments who contributed to their purchase (e.g., IBG and
+Biofrontiers).</p>
+
+<table>
+  <tr>
+    <th>Operating system</th>
+    <td colspan="2"><a href="http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">Red
+    Hat Enterprise Linux</a> 6</td>
+  </tr>
+  <tr>
+    <th>Compute nodes</th>
+    <td>1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <th>Compute cores</th>
+    <td>32, four <a href="http://ark.intel.com/products/46498/Intel-Xeon-Processor-X7550-18M-Cache-2_00-GHz-6_40-GTs-Intel-QPI">Intel Xeon X7550</a> (8*2GHz "Nehalem-EX") processors,
+      <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/hyper-threading/hyper-threading-technology.html">Hyper-Threading</a> enabled</td>
+    <td>80 total,
+    four <a href="http://ark.intel.com/products/53577/Intel-Xeon-Processor-E7-8867L-30M-Cache-2_13-GHz-6_40-GTs-Intel-QPI">Intel
+    Xeon E7-8867L</a> (10*2.13GHz "Westmere-EX") processors per node,
+    <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/hyper-threading/hyper-threading-technology.html">Hyper-Threading</a>
+    enabled</td>
+  </tr>
+  <tr>
+    <th>System memory</th>
+    <td>512 GiB</td>
+    <td>2 TiB total, 1 TiB per node</td>
+  </tr>
+  <tr>
+    <th>Local storage</th>
+    <td>2 TB hard disk</td>
+    <td>16 TB hard disk per node</td>
+  </tr>
+</table>
+
+<p>High-memory nodes are accessed via the <code>himem</code> QOS.</p>
+
+<h2>GPU</h2>
+
+<p>Two GPU nodes support visualization and GPU-accelerated
+  applications.</p>
+
+<table>
+  <tr>
+    <th>Operating system</th>
+    <td><a href="http://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">Red
+    Hat Enterprise Linux</a> 6</td>
+  </tr>
+  <tr>
+    <th>Compute nodes</th>
+    <td>2</td>
+  </tr>
+  <tr>
+    <th>Compute cores</th>
+    <td>24
+      total, two <a href="http://ark.intel.com/products/47921/Intel-Xeon-Processor-X5660-12M-Cache-2_80-GHz-6_40-GTs-Intel-QPI">Intel
+      Xeon X5660</a> (6*2.8GHz "Westmere") processors per node,
+      <a href="http://www.intel.com/content/www/us/en/architecture-and-technology/hyper-threading/hyper-threading-technology.html">Hyper-Threading</a>
+      enabled</td>
+  </tr>
+  <tr>
+    <th>GPU</th>
+    <td><a href="http://www.nvidia.com/docs/IO/43395/NV_DS_Tesla_M2050_M2070_Apr10_LowRes.pdf">Nvidia
+    Tesla M2070</a></td>
+  </tr>
+  <tr>
+    <th>System memory</th>
+    <td>256 GiB total, 128 GiB per node</td>
+  </tr>
+  <tr>
+    <th>Local storage</th>
+    <td>two 1 TB hard disks per node</td>
+  </tr>
+</table>
+
+<p>GPU-accelerated nodes are accessed via the <code>gpu</code>
+QOS.</p>
