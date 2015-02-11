@@ -9,7 +9,7 @@ jobs and to monitor their progress during execution.</p>
 
 <p>Access to Slurm is provided by the <code>slurm</code> module.</p>
 
-<code><pre>$ module load slurm</pre></code>
+<pre><code>$ module load slurm</code></pre>
 
 <h2>Batch jobs</h2>
 
@@ -20,18 +20,18 @@ to the slurm queue using
 the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
 command.</p>
 
-<code><pre>$ sbatch job-script.sh</pre></code>
+<pre><code>$ sbatch job-script.sh</code></pre>
 
 <p><code>sbatch</code> takes a number of command-line arguments. These
 arguments can be supplied on the command-line...</p>
 
-<code><pre>$ sbatch --ntasks 16 job-script.sh</pre></code>
+<pre><code>$ sbatch --ntasks 16 job-script.sh</code></pre>
 
 <p>Or embedded in the header of the job script itself
 using <code>#SBATCH</code> directives.</p>
 
-<code><pre>#!/bin/bash
-#SBATCH --ntasks 16</pre></code>
+<pre><code>#!/bin/bash
+#SBATCH --ntasks 16</code></pre>
 
 <p>You can use
 the <code><a href="http://www.schedmd.com/slurmdocs/scancel.html">scancel</a></code>
@@ -41,14 +41,14 @@ id that is assigned to the job during submission.</p>
 
 <h3>Example batch job script: <code>hello-world.sh</code></h3>
 
-<code><pre>#!/bin/bash
+<pre><code>#!/bin/bash
 
 #SBATCH --ntasks 1
 #SBATCH --output hello-world.out
 #SBATCH --qos janus-debug
 
 echo "Running on $(hostname --fqdn):
-echo 'Hello, world!'</pre></code>
+echo 'Hello, world!'</code></pre>
 
 <p>This minimal example job script, <code>hello-world.sh</code>, when
 submitted with <code>sbatch</code>, writes the name of the cluster
@@ -56,7 +56,7 @@ node on which the job ran, along with the standard programmer's
 greeting, "Hello, world!", into the output
 file <code>hello-world.out</code></p>
 
-<code><pre>$ sbatch hello-world.sh</pre></code>
+<pre><code>$ sbatch hello-world.sh</code></pre>
 
 <h2>Job requirements</h2>
 
@@ -113,7 +113,7 @@ minor variations.</p>
 <p>Job arrays are submitted using <code>sbatch</code>, similar to
 standard batch jobs.</p>
 
-<code><pre>sbatch --array=[0-9] job-script.sh</pre></code>
+<pre><code>sbatch --array=[0-9] job-script.sh</code></pre>
 
 <p>Each job in the array will have access to
 a <code>$SLURM_ARRAY_TASK_ID</code> set to the value that represents
@@ -122,7 +122,7 @@ running job can perform the appropriate variant task.</p>
 
 <h3>Example array job script: <code>hello-world.sh</code></h3>
 
-<code><pre>#!/bin/bash
+<pre><code>#!/bin/bash
 
 #SBATCH --array 0-9
 #SBATCH --ntasks 1
@@ -130,7 +130,7 @@ running job can perform the appropriate variant task.</p>
 #SBATCH --open-mode append
 #SBATCH --qos janus-debug
 
-echo "$(hostname --fqdn): index ${SLURM_ARRAY_TASK_ID}"</pre></code>
+echo "$(hostname --fqdn): index ${SLURM_ARRAY_TASK_ID}"</code></pre>
 
 <p>This minimal example job script, <code>array-job.sh</code>, when
 submitted with <code>sbatch</code>, submits ten jobs with indexes 0
@@ -138,7 +138,7 @@ through 9. Each job appends the name of the cluster node on which the
 job ran, along with the job's array index, into the output
 file <code>array-job.out</code></p>
 
-<code><pre>$ sbatch array-job.sh</pre></code>
+<pre><code>$ sbatch array-job.sh</code></pre>
 
 <h2>Accounts</h2>
 
@@ -148,17 +148,17 @@ account using
 the <code><a href="http://slurm.schedmd.com/sacctmgr.html">saccountmgr</a></code>
 command.</p>
 
-<code><pre>$ sacctmgr list Users Users=$USER format=DefaultAccount</pre></code>
+<pre><code>$ sacctmgr list Users Users=$USER format=DefaultAccount</code></pre>
 
 <p>Use the <code>--account</code> argument to submit a job for an
 account other than your default.</p>
 
-<code><pre>#SBATCH --account=crcsupport</pre></code>
+<pre><code>#SBATCH --account=crcsupport</code></pre>
 
 <p>You can use the <code>sacctmgr</code> command to list your
 available accounts.</p>
 
-<code><pre>$ sacctmgr list Associations Users=$USER format=Account</pre></code>
+<pre><code>$ sacctmgr list Associations Users=$USER format=Account</code></pre>
 
 <h2>Job mail</h2>
 
@@ -166,8 +166,8 @@ available accounts.</p>
 executes. This is configured using the <code>--mail-type</code>
 and <code>--mail-user</code> arguments.</p>
 
-<code><pre>#SBATCH --mail-type=END
-#SBATCH --mail-user=user@example.com</pre></code>
+<pre><code>#SBATCH --mail-type=END
+#SBATCH --mail-user=user@example.com</code></pre>
 
 <p>The <code>--mail-type</code> configures what points during job
 execution should generate notifications. Valid values
@@ -186,7 +186,7 @@ queueing systems, as Slurm uses a single queue.</p>
 the <code>--qos</code> argument. The <code>janus</code> QOS will be
 used by default when no QOS value is specified explicitly.</p>
 
-<code><pre>#SBATCH --qos janus-debug</pre></code>
+<pre><code>#SBATCH --qos janus-debug</code></pre>
 
 <table>
   <thead>
@@ -286,19 +286,19 @@ by all users. This is useful for inspecting the position of one's jobs
 in the queue; but, more often, users simply want to inspect the
 current state of their own jobs.</p>
 
-<code><pre>$ squeue --user=$USER</pre></code>
+<pre><code>$ squeue --user=$USER</code></pre>
 
 <p>Slurm can provide an estimate of when your jobs will start, along
 with what resources it expects to dispatch your jobs to.</p>
 
-<code><pre>$ squeue --user=$USER --start</pre></code>
+<pre><code>$ squeue --user=$USER --start</code></pre>
 
 <p>More detailed information about a specific job can be accessed
 using
 the <code><a href="http://slurm.schedmd.com/scontrol.html">scontrol</a></code>
 command.</p>
 
-<code><pre>scontrol show job $SLURM_JOB_ID</pre></code>
+<pre><code>scontrol show job $SLURM_JOB_ID</code></pre>
 
 <h2>Temporary local scratch storage</h2>
 
@@ -360,7 +360,7 @@ simplest way to establish an interactive session is to use
 the <a href="https://github.com/jabl/sinteractive"><code>sinteractive</code></a>
 script, available in the slurm module.</p>
 
-<code><pre>$ sinteractive --qos janus-debug</pre></code>
+<pre><code>$ sinteractive --qos janus-debug</code></pre>
 
 <p>The <code>sinteractive</code> script will open a login shell on the
 first allocated node, and supports X11 forwarding via the submission host.</p>
@@ -370,7 +370,7 @@ as an interactive job, use
 the <code><a href="http://slurm.schedmd.com/salloc.html">salloc</a></code>
 command.</p>
 
-<code><pre>$ salloc --qos janus-debug job-script.sh</pre></code>
+<pre><code>$ salloc --qos janus-debug job-script.sh</code></pre>
 
 <p>If you do not provide a command to execute, <code>salloc</code> is
 configured to execute your default shell, similar to
@@ -408,7 +408,7 @@ script.)</p>
 <p>Users may sometimes encounter the following message in their job
 output:</p>
 
-<code><pre>slurmstepd: task/cgroup: unable to remove step memcg : No such file or directory ?</pre></code>
+<pre><code>slurmstepd: task/cgroup: unable to remove step memcg : No such file or directory ?</code></pre>
 
 <p>This message results from an issue with the way slurm cleans up the
 job. We are working on fixing the issue but for now it is safe to
