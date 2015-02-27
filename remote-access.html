@@ -1,0 +1,89 @@
+<meta charset="utf-8">
+
+<h1>Remote access and logging in</h1>
+
+<p>Access to Research Computing resources is available over the campus
+network and the general Internet largely by way of the Secure Shell,
+or ssh, protocol. Access is provided via one of the dedicated login
+nodes.</p>
+
+<h2>One-time passwords (OTP)</h2>
+
+<p>One-Time Passwords (OTP) provide better security for online account
+access than traditional memorized or stored passwords. The password
+generated in the OTP login process is only valid for one session. A
+string of six digits, generated approximately every 30 seconds, is
+displayed to the customer on a hardware authenticator device. To log
+in, the user enters their username and generates a password by
+combining a secret four digit PIN with the six digit string displayed
+on the authenticator, resulting in a 10-digit numeric password.</p>
+
+<p>The standard authenticator (password generator) used by CU-Boulder
+is the <a href="https://www.vasco.com/products/client_products/single_button_digipass/digipass_go6.aspx">VASCO GO-6</a>. Other authenticators are available including
+<a href="https://www.vasco.com/products/client_products/software_digipass/digipass_for_mobile.aspx">smartphone
+application based authenticators</a> and audio authenticators for the
+visually impaired.</p>
+
+<h2>NCAR accounts</h2>
+
+<p>NCAR users can access RC resources using their NCAR account. Use
+your NCAR Yubikey or CryptoCard to authenticate.</p>
+
+<p>More information is available on
+the <a href="http://www2.cisl.ucar.edu">Computational & Information
+Systems Lab</a> website.</p>
+
+<h2>The secure shell (ssh)</h2>
+
+<p>Once you have
+
+  <ul>
+    <li>obtained a Research Computing account;</li>
+    <li>obtained an OTP authenticator;</li>
+    <li>and registered and tested your OTP authenticator</li>
+  </ul>
+
+  you should be able to log into an RC login node using the secure
+  shell (ssh).</p>
+
+<p>The <code>ssh</code> command can be run from the Linux and OS X
+command-line. For Windows clients we recommend
+the <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>
+application.</p>
+
+<pre><code>ssh -l $rc_username login.rc.colorado.edu</code></pre>
+
+<p>the first time you log in, the system will configure your internal
+ssh key pair, used for authentication between internal hosts.</p>
+
+<pre><code>Attempting to create internal ssh config for connecting to CURC managed resources...
+Generating public/private rsa key pair.
+Your identification has been saved in /home/example/.ssh/curc.
+Your public key has been saved in /home/example/.ssh/curc.pub.
+The key fingerprint is:
+ed:43:02:88:99:10:d5:87:ed:84:51:b1:69:73:24:b4 example@login01.rc.colorado.edu</code></pre>
+
+<h3>Further reading</h3>
+
+<p>The ssh protocol and its related applications have many
+features. It can be used as simply as described here, to provide
+  simple shell access to the RC login nodes; but it can also
+
+  <ul>
+    <li>transfer files,</li>
+    <li>forward X11 GUI application interfaces,</li>
+    <li>proxy TCP connections,</li>
+    <li>multiplex sessions through a single connection,<li>
+  </ul>
+
+  and much more.</p>
+
+<p>If you are interested in using advanced ssh features, we recommend
+the following additional reading:
+
+  <ul>
+    <li><a href="http://linux.die.net/man/1/ssh">OpenSSH ssh client man page</li>
+    <li><a href="http://support.cs.utah.edu/index.php?option=com_content&view=article&id=32&Itemid=58">University
+    of Utah SSH quick guide</a></li>
+  </ul>
+</p>
