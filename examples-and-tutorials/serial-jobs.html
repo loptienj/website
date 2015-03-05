@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+
+<p>This is an example serial job using current best practices. More
+information about submitting jobs in the Research Computing
+environment is available in the documentation
+for <a href="../batch-queueing.html">batch queueing and job
+scheduling</a>.</p>
+
+<pre><code>#!/bin/bash
+
+# example-serial-job.sh
+
+# The job name will be displayed in the output of squeue
+#SBATCH --job-name example-serial-job
+
+# Set a time limit for the job (HH:MM:SS)
+#SBATCH --time 0:00:30
+
+# Start a single task (de facto on a single node)
+#SBATCH --ntasks 1
+
+# Set the output file name (default: slurm-${jobid}.out)
+#SBATCH -o example-serial-job-%j.out
+
+# Load modules used by your job
+module load slurm
+
+# Execute the program.
+./example-serial-command</code></pre>
