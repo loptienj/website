@@ -1,0 +1,327 @@
+<meta charset="utf-8">
+
+<p>Slurm's <a href="http://slurm.schedmd.com/scontrol.html"><code>scontrol</code></a>
+command can be used to inspect the status of a job in the queue; but
+this output can be a bit verbose, and intimidating if you don't
+already know how to read it.<p>
+
+<pre><code>$ scontrol show job 6286
+JobId=6286 Name=test_job
+  UserId=ralphie(00001) GroupId=ralphiepgrp(00001)
+  Priority=7 Nice=0 Account=ralphie QOS=normal
+  JobState=RUNNING Reason=None Dependency=(null)
+  Requeue=1 Restarts=0 BatchFlag=1 ExitCode=0:0
+  RunTime=00:00:24 TimeLimit=01:00:00 TimeMin=N/A
+  SubmitTime=2014-05-29T10:31:43 EligibleTime=2014-05-29T10:31:43
+  StartTime=2014-05-29T10:31:47 EndTime=2014-05-29T11:31:47
+  PreemptTime=None SuspendTime=None SecsPreSuspend=0
+  Partition=janus AllocNode:Sid=login01:8396
+  ReqNodeList=(null) ExcNodeList=(null)
+  NodeList=node[1342-1345,1362-1367]
+  BatchHost=node1342
+  NumNodes=10 NumCPUs=120 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+  Socks/Node=* NtasksPerN:B:S:C=12:0:*:* CoreSpec=0
+  MinCPUsNode=12 MinMemoryCPU=1700M MinTmpDiskNode=0
+  Features=(null) Gres=(null) Reservation=(null)
+  Shared=0 Contiguous=0 Licenses=(null) Network=(null)
+  Command=/home/ralphie/testjob/testjob_submit.sh
+  WorkDir=/home/ralphie/testjob
+  StdErr=/home/ralphie/testjob/6286.out
+  StdIn=/dev/null
+  StdOut=/home/ralphie/testjob/6286.out</code></pre>
+
+<p>Here, we'll inspect the output of this example job, and explain
+each element in detail.</p>
+
+<pre><code>JobId=6286</code></pre>
+
+<p>Each job that is submitted to Slurm is assigned a unique numerical
+ID. This ID appears in the output of several Slurm commands, and can
+be used to refer to the job for modification or cancellation.</p>
+
+<pre><code>Name=test_job</code></pre>
+
+<p>When submitting your job, you can define a descriptive name
+using <code>--job-name</code> (or <code>-J</code>). Otherwise, the job
+name will be the name of the script that was submitted.</p>
+
+<pre><code>UserId=ralphie(00001)</code></pre>
+
+<pre><code>GroupId=ralphiepgrp(00001)</code></pre>
+
+<p>Each job runs using the user credentials of the user process that
+submitted it. These are the same credentials indicated by
+the <code>id</code> command.</p>
+
+<pre><code>Priority=7</code></pre>
+
+<p>The current scheduling priorty for the job, calculated based on the
+current scheduling policy for the cluster. Jobs with a higher priority
+are more likely to start sooner.</p>
+
+<pre><code>Nice=0</code></pre>
+
+<p>The nice value is a subtractive adjustment to a job's priority. You
+can voluntarialy reduce your job priority using
+the <code>--nice</code> argument.</p>
+
+<pre><code>Account=ralphie</code></pre>
+
+<p>Access to Research Computing compute resources is moderated by the
+use of core-hour allocations to compute accounts. This account is
+specified using the <code>--account</code> (or <code>-A</code>)
+argument.</p>
+
+<pre><code>QOS=normal</code></pre>
+
+<p>Slurm uses a "quality of service" system to control job
+properties. The Research Computing environment also uses QOS values to
+map jobs to node types.</p>
+
+<p>The QOS is selected during job submission using
+the <code>--qos</code> argument. More information is available on
+the <a href="../batch-queueing.html">Batch queueing and job
+scheduling</a> page.</p>
+
+<pre><code>JobState=RUNNING</code></pre>
+
+<p>Slurm jobs pass through a number of different states. Common states
+are PENDING, RUNNING, and COMPLETED.</p>
+
+<pre><code>Reason=None</code></pre>
+
+<p>For PENDING jobs, an explanation for why the job is not yet RUNNING
+is listed here.</p>
+
+<pre><code>Dependency=(null)</code></pre>
+
+<p>If the job depends on another job (as defined
+by <code>--dependency</code> or <code>-d</code>, that dependency will
+be indicated here.</p>
+
+<pre><code>Requeue=1</code></pre>
+
+<p>If a job fails due to certain scheduler conditions, Slurm may
+re-queue the job to run at a later time. Re-queueing can be disabled
+using <code>--no-requeue</code>.</p>
+
+<pre><code>Restarts=0</code></pre>
+
+<p>If the job has been restarted (see <code>Requeue</code> above) the
+number of restarts will be reflected here.</p>
+
+<pre><code>BatchFlag=1</code></pre>
+
+<p>Whether or not the job was submitted using <code>sbatch</code>.</p>
+
+<pre><code>ExitCode=0:0</code></pre>
+
+<p>The exit code and terminating signal (if applicable) for exited
+jobs.</p>
+
+<pre><code>RunTime=00:00:24</code></pre>
+
+<p>How long the job has been running.</p>
+
+<pre><code>TimeLimit=01:00:00</code></pre>
+
+<p>The time limit for the job, specified by <code>--time</code>
+or <code>-t</code>.</p>
+
+<pre style="text-decoration: line-through"><code>TimeMin=N/A</code></pre>
+
+<pre><code>SubmitTime=2014-05-29T10:31:43</code></pre>
+
+<p>When the job was submitted.</p>
+
+<pre><code>EligibleTime=2014-05-29T10:31:43</code></pre>
+
+<p>When the job became eligle to run. Examples of reasons a job might
+be ineligible to run include being bound to a reservation that has not
+started; exceeding the maximum number of jobs allowed to be run by a
+user, group, or account; having an unmet job dependency; or specifying
+a later start time using <code>--begin</code>.</p>
+
+<pre><code>StartTime=2014-05-29T10:31:47</code></pre>
+
+<p>When the job last started.</p>
+
+<pre><code>EndTime=2014-05-29T11:31:47</code></pre>
+
+<p>For a RUNNING job, this is the predicted time that the job will
+end, based on the time limit specified by <code>--time</code>
+or <code>-t</code>. For a COMPLETED or CANCELLED job, this is the time
+that the job ended.</p>
+
+<pre><code>PreemptTime=None</code></pre>
+
+<p>If the scheduler preempts a running job to allow the start of
+another job, the time that the job was last preempted will be recorded
+here.</p>
+
+<pre><code>SuspendTime=None</code></pre>
+
+<p>If a job is suspended (e.g., using <code>scontrol suspend</code>)
+the time that it was last suspended will be recorded here.</p>
+
+<pre><code>SecsPreSuspend=0</code></pre>
+
+<p>Unknown.</p>
+
+<pre><code>Partition=janus</code></pre>
+
+<p>The partition of compute resources targeted by the job. While the
+partition can be manually set using <code>--partition</code>
+or <code>-p</code>, the Research Computing environment automatically
+selects the correct partition when the user specifies the desired QOS
+using <code>--qos</code>.</p>
+
+<pre><code>AllocNode:Sid=login01:8396</code></pre>
+
+<p>Which node the job was submitted from, along with the system
+id. (It's safe to ignore the system id for now.)</p>
+
+<pre><code>ReqNodeList=(null)</code></pre>
+
+<p>The list of nodes explicitly requested by the job, as specified by
+the <code>--nodelist</code> or <code>-w</code> argument.</p>
+
+<pre><code>ExcNodeList=(null)</code></pre>
+
+<p>The list of nodes explicitly excluded by the job, as specified by
+the <code>--exclude</code> or <code>-x</code> argument.</p>
+
+<pre><code>NodeList=node[1342-1345,1362-1367]</code></pre>
+
+<p>The list of nodes that the job is currently running on.</p>
+
+<pre><code>BatchHost=node1342</code></pre>
+
+<p>The "head node" for the job. This is where the job script itself
+actually runs.</p>
+
+<pre><code>NumNodes=10</code></pre>
+
+<p>The number of nodes requested by the job. May be specified
+using <code>--nodes</code> or <code>-N</code>.</p>
+
+<pre><code>NumCPUs=120</code></pre>
+
+<p>The number of CPUs requested by the job, calculated by the nodes
+requested, the number of tasks requested, and the allocation of CPUs
+to tasks.<code></p>
+
+<pre><code>CPUs/Task=1</code></pre>
+
+The number of CPU cores assigned to task. May be specified using, for
+example, <code>--ntasks</code> (<code>-n</code>)
+and <code>--cpus-per-task</code> (<code>-c</code>).</p>
+
+<pre><code>ReqB:S:C:T=0:0:*:*</code></pre>
+
+<p>An undocumented breakout of the node hardware.</p>
+
+<pre><code>Socks/Node=*</code></pre>
+
+<p>Reflects the specific allocation of CPU sockets per node (where a
+single socketed CPU may contain many cores). This can be specified
+using <code>--sockets-per-node</code>, implied
+by <code>--cores-per-socket</code>, or affected by other node
+specification arguments.</p>
+
+<pre><code>NtasksPerN:B:S:C=12:0:*:*</code></pre>
+
+<p>An undocumented breakout of the tasks pre node.</p>
+
+<pre><code>CoreSpec=0</code></pre>
+
+<p>Unknown.</p>
+
+<pre><code>MinCPUsNode=12</code></pre>
+
+<p>The minimum number of CPU cores per node requested by the
+job. Useful for jobs that can run on a flexible number of
+processors, as specified by <code>--mincpus</code>.</p>
+
+<pre><code>MinMemoryCPU=1700M</code></pre>
+
+<p>The minimum amount of memory required per CPU. Set automatically by
+the scheduler, but explicitly configurable
+with <code>--mem-per-cpu</code>.</p>
+
+<pre><code>MinTmpDiskNode=0</code></pre>
+
+<p>The amount of temporary disk space required per node, as requested
+by <code>--tmp</code>. Note that Janus nodes do not have local disks
+attached, and it is expected that most file IO will take place in the
+shared parallel filesystem.</p>
+
+<pre><code>Features=(null)</code></pre>
+
+<p>Node features required by the job, as specified
+by <code>--constraint</code> or <code>-C</code>. Node features are not
+currently used in the Research Computing environment.</p>
+
+<pre><code>Gres=(null)</code></pre>
+
+<p>Generic consumable features required by the job, as specified
+by <code>--gres</code>. Generic resources are not currently used in
+the Research Computing environment.</p>
+
+<pre><code>Reservation=(null)</code></pre>
+
+<p>If the job is running as part of a resource reservation
+(using <code>--reservation</code>), that reservation will be
+identified here.</p>
+
+<pre><code>Shared=0</code></pre>
+
+<p>Whether or not the job can share resources with other running jobs,
+as specified with <code>--share</code> or <code>-s</code>.</p>
+
+<pre><code>Contiguous=0</code></pre>
+
+<p>Whether or not the nodes allocated for the ode must be contiguous,
+as specified by <code>--contiguous</code>.</p>
+
+<pre><code>Licenses=(null)</code></pre>
+
+<p>List of licenses requested by the job, as specified
+by <code>--licenses</code> or <code>-L</code>. Note that Slurm is not
+used for license managment in the Research Computing environment.</p>
+
+<pre><code>Network=(null)</code></pre>
+
+<p>System-specific network specification information. Not applicable
+to the Research Computing environment.</p>
+
+<pre><code>Command=/home/ralphie/testjob/testjob_submit.sh</code></pre>
+
+<p>The command that will be executed on the head node to start the
+job. (See <code>BatchHost</code>, above.)</p>
+
+<pre><code>WorkDir=/home/ralphie/testjob</code></pre>
+
+<p>The initial working directory for the job, as specified
+by <code>--workdir</code> or <code>-D</code>. By default, this will be
+the working directory when the job is submitted.</p>
+
+<pre><code>StdErr=/home/ralphie/testjob/6286.out</code></pre>
+
+<p>The output file for the stderr stream (fd 2) of the main process
+of the job, running on the head node. Set by <code>--output</code>
+or <code>-o</code>, or explicitly by <code>--error</code>
+or <code>-e</code>.</p>
+
+<pre><code>StdIn=/dev/null</code></pre>
+
+<p>The input file for the stdin stream (fd 0) of the main process of
+the job, running on the head node. Set to <code>/dev/null</code> by
+default, but can be configured with <code>--input</code>
+or <code>-i</code>.</p>
+
+<pre><code>StdOut=/home/ralphie/testjob/6286.out</code></pre>
+
+<p>The output file for the stdout stream (fd 1) of the main process
+of the job, running on the head node. Set by <code>--output</code>
+or <code>-o</code>.</p>

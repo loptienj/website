@@ -60,6 +60,11 @@ file <code>hello-world.out</code></p>
 
 <pre><code>$ sbatch hello-world.sh</code></pre>
 
+
+<div class="example">Example: <a href="examples-and-tutorials/serial-jobs.html">Serial jobs</a></div>
+
+<div class="example">Example: <a href="examples-and-tutorials/parallel-mpi-jobs.html">Parallel mpi jobs</a></div>
+
 <h2>Job requirements</h2>
 
 <p>Slurm uses the requirements declared by job scripts and submission
@@ -275,7 +280,7 @@ shorter queue wait times when using <code>janus-serial</code>.</p>
 not run as fast as it should, you should not be running that job on
 this reservation. Stability is not guaranteed for multi-node jobs, but
 we know a lot of users have smaller jobs so we want to use as much of
-Janus as possible.</p>
+  Janus as possible.</p>
 
 <h2>Monitoring job progress</h2>
 
@@ -298,9 +303,12 @@ with what resources it expects to dispatch your jobs to.</p>
 <p>More detailed information about a specific job can be accessed
 using
 the <code><a href="http://slurm.schedmd.com/scontrol.html">scontrol</a></code>
-command.</p>
+  command.</p>
 
 <pre><code>scontrol show job $SLURM_JOB_ID</code></pre>
+
+<div class="tutorial">Tutorial: <a href="examples-and-tutorials/interpreting-scontrol-job-information.html">Interpreting <code>scontrol</code>
+job information</a></div>
 
 <h2>Temporary local scratch storage</h2>
 
