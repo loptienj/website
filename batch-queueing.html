@@ -181,6 +181,47 @@ execution should generate notifications. Valid values
 include <code>BEGIN</code>, <code>END</code>, <code>FAIL</code>,
 and <code>ALL</code>.</p>
 
+<h2>Resource accounting</h2>
+
+<p>Resources used by Slurm jobs are recorded in the Slurm accounting
+database. This accounting data is used to deduct resource use from
+resource allocations.</p>
+
+<p>The <a href="http://slurm.schedmd.com/sacct.html"><code>sacct</code></a>
+command displays accounting data from the Slurm accounting
+database. To query the accounting data for a single job, use
+  the <code>--job</code> argument.</p>
+
+<pre><code>sacct --job $jobid</code></pre>
+
+<p><code>sacct</code> queries can take some time to complete. Please
+  be patient.</p>
+
+<p>You can change the fields that are printed with
+the <code>--format</code> option, and the fields available can be
+listed using the <code>--helpformat</code> option.</p>
+
+<pre><code>$ sacct --job=200 --format=jobid,jobname,qos,user,nodelist,state,start,end
+       JobID    JobName        QOS      User        NodeList      State               Start                 End 
+------------ ---------- ---------- --------- --------------- ---------- ------------------- ------------------- 
+200            test.run     normal  ralphie  node[1643,1677+  COMPLETED 2014-04-24T15:24:35 2014-04-24T15:24:40 
+200.batch         batch                             node1643  COMPLETED 2014-04-24T15:24:35 2014-04-24T15:24:40 
+200.0             orted                      node[1677,1724]  COMPLETED 2014-04-24T15:24:35 2014-04-24T15:24:40 </code></pre>
+
+<p>If you don't have a record of your job IDs, you can use date-range
+queries in <code>sacct</code> to find your job.</p>
+
+<pre><code>$ sacct --user=$USER --starttime=2014-05-01 --endtime=2014-06-01
+       JobID    JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+4944               bash      janus    ralphie          1  COMPLETED      0:0 
+4945               bash      janus    ralphie          1  COMPLETED      0:0 
+4946           test_job      janus    ralphie          1  COMPLETED      0:0 
+4946.batch        batch               ralphie          1  COMPLETED      0:0 
+4947           test_job      janus    ralphie          1  COMPLETED      0:0 
+4947.batch        batch               ralphie          1  COMPLETED      0:0 
+4948           test_job      janus    ralphie          1  COMPLETED      0:0 
+4948.batch        batch               ralphie          1  COMPLETED      0:0 </code></pre>
 
 <h2>Quality of service (QOS)</h2>
 
