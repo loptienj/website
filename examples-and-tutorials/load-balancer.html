@@ -1,0 +1,42 @@
+<meta charset="utf-8">
+
+<p>This is a simple example illustrating how to use the
+<a href="https://github.com/ResearchComputing/lb">load balancer</a>
+tool.  Essentially you enumerate the commands you would like to
+execute in parallel in a file, making sure that you only put one
+command per line. If you have multiple commands as part of the same
+task, separate them with a semicolon (;). This means that you can
+use your favorite scripting language to create your set of tasks,
+or you can simply copy-and-paste if you only have a few.
+</p>
+
+<p>There are two ways to execute this code: interactively and batched.
+More information about submitting jobs in the Research Computing
+environment is available in the documentation for
+<a href="../batch-queueing.html">batch queueing and job scheduling</a>.
+</p>
+
+<ol>
+<li>
+Create the <code>cmd_lines</code> file in the directory you created.
+<pre><code>
+$ for  i in {1..100} ; do
+>   echo "sleep 2; echo hostname $i" >> cmd_lines
+> done
+</code></pre>
+</li>
+
+<li>
+Load the load balancer module.
+<pre><code>
+$ module load loadbalance
+</code></pre>
+</li>
+
+<li>
+Submit your job, for example using srun.
+<pre><code>
+$ srun lb cmd_lines
+</code></pre>
+</li>
+</ol>
