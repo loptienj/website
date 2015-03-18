@@ -1,0 +1,114 @@
+<meta charset="utf-8">
+
+<p>Access to Research Computing compute resources is moderated using
+  finite time-based allocations. Each jobs run in the Research
+  Computing queueing system is assocaited with and charged to an
+  allocation. If the job's allocation is not sufficient for the
+  estimated requirements of the job, the job will not start and
+  additional time must be allocated. (Jobs prevented from running due
+  to an exhausted allocation will be identified with the pending
+  reason "<code>AssociationJobLimit</code>.")</p>
+
+<p>Compute allocations are expressed in "service units" (SU), which
+  are generally relatable to CPU core-hours.</p>
+
+<h2>Getting a new allocation</h2>
+
+<p>All users are allowed a single "startup" or "testing" allocation of
+  50,000 SU. This amount of time is generally enough for a lot of
+  testing and can be used to develop a proof of concept for a larger
+  allocation request. Use the research
+  computing <a href="https://portals.rc.colorado.edu/allocation/request/">allocation
+  request form</a> to request a startup allocation. Startup
+  allocations cannot be transferred or shared.</p>
+
+<p>Larger "project" allocations require supporting documentation which
+  may be submitted by the project's principal investigator (PI) or an
+  authorized collaborator. In either case, the PI must have a Research
+  Computing account in order to be associated with the allocation.</p>
+
+<p>When filling out
+  the <a href="https://portals.rc.colorado.edu/allocation/request/project/">allocation
+  request form</a>, be sure to include a proposal that describes
+
+  <ul>
+    <li>previous work that informs the request</li>
+
+    <li>how the size of the request was determined</li>
+
+    <li>alternative implementations that might require more or less
+      resources</li>
+
+    <li>any work already done to optimize relevant code and workflow
+      (e.g., compiler optimizations, workflow optimizations to more
+      fully utilize nodes)</li>
+
+    <li>roughly how many jobs of what size and what sort of monthly
+      load we should expect (i.e. will the compute time be used
+      roughly equally each month, or 6 months of heavy usage and then
+      a small amount of post-processing work?)</li>
+
+    <li>what results, publications, degrees, or presentations will be
+      produced using the allocation</li>
+
+    <li>whether the project will continue beyond this (one-year)
+      allocation</li>
+  </ul>
+</p>
+
+<p>Project allocations are expected to provide compute time for one
+  year or the life of the project, whichever is shortest.</p>
+
+<h2>Joining an existing allocation</h2>
+
+<p>If you are working on a project that already has an allocation, ask
+  the principal investigator (PI) of the project or allocation to
+  contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>. The
+  request should include
+
+  <ul>
+    <li>the allocation account ID (usually starting
+      with <code>UCB</code>)</li>
+
+    <li>the name and username of the person to be added to the
+      allocation</li>
+  </ul>
+</p>
+
+<h2>Submitting a job to use an allocation</h2>
+
+<p>Jobs submitted to the Research Computing queueing system will
+  automatically use your default allocation. You can explicitely
+  specify a different allocation using the <code>--account</code>
+  (or <code>-A</code>) argument.</p>
+
+<pre><code>$ sbatch --account UCB7111101 job-script.sh</code></pre>
+
+<p>The allocation can be encoded in the job script itself
+  using an <code>#SBATCH</code> directive.</p>
+
+<pre><code>#SBATCH --account UCB7111101</code></pre>
+
+<h2>Default allocation</h2>
+
+<p>Users with multiple allocations can see their default allocation
+using the <code>sacctmgr</code> command.</p>
+
+<pre><code>$ sacctmgr show user $USER --parsable
+User|Def Acct|Admin|
+ralphie|ucb00000055|None|</code></pre>
+
+<p>To change your default allocation,
+  contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.</p>
+
+<h2>Checking your allocation</h2>
+
+<p>The <a href="http://slurm.schedmd.com/slurm_ug_2012/SUG2012-TCHPC-sbank.pdf"><code>sbank</code></a>
+  command allows you to check the balance of all allocations that you
+  have access to.</p>
+
+<pre><code>$ sbank balance statement -U $USER
+User           Usage |        Account     Usage | Account Limit Available (CPU hrs)
+---------- --------- + -------------- --------- + ------------- ---------
+ralphie           48 | S00000005          4,352 | 1,666,667     1,662,314
+ralphie            1 | UCB000000122      88,667 | 610,351         521,684</code></pre>
