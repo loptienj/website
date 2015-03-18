@@ -1,0 +1,101 @@
+<meta charset="utf-8">
+
+<p>The Research Computing environment provides several types of
+  storage. Understainging these storage options, how they impact job
+  execution, and how they may impact other running jobs is essential
+  when running in the Research Computing environment.</p>
+
+<h2>Home</h2>
+
+<p>Each user has a home directory available from all Research
+  Computing nodes at <code>/home/${USER}/</code>. Each home directory
+  is a limited to 2GB to prevent the use of the home directory as a
+  target for job output, software installs, or other data likely to be
+  used during a compute job. Home directories are not stored on a
+  high-performance filesystem and, as such, they are not intended to
+  be written to by compute jobs. <strong><em>Use of a home directory
+  during a high-performance or parallel compute job may negatively
+  affect the environment for all users.</em></strong></p>
+
+<p>A <code>.snapshot/</code> directory is present in each home
+  directory, and contains recent copies of the files at historic
+  points in time. These snapshots can be used to recover files after
+  accidental deletion or corruption.</p>
+
+<h2>Projects</h2>
+
+<p>Each user has access to a 256GB project directory available from
+  all Research Computing nodes at <code>/projects/${USER}/</code>. The
+  project directory is intended to store software builds and smaller
+  data sets. Like home directories, project directories are not
+  intended to be written to by compute jobs. <strong><em>Significant
+  use of a project directory during a high-performance or parallel
+  compute job may negatively affect the environment for all
+  users.</em></strong></p>
+
+<p>A <code>.snapshot/</code> directory is present in each project
+  directory, and contains recent copies of the files at historic
+  points in time. These snapshots can be used to recover files after
+  accidental deletion or corruption. (Project directories are
+  snapshotted less frequently than home directories.)</p>
+
+<h2>Local scratch</h2>
+
+<p>Local scratch directores are created automatically on compute nodes
+  during job execution. Because these directories are created and
+  removed automatically, the location of the directory is assigned to
+  the <code>$TMPDIR</code> environment variable.</p>
+
+<p>No administrative limits are placed on the amount of data that can
+  be placed in a temporary local scratch directory.</p>
+
+<p><strong><em>Local scratch directories are not backed up or
+      checkpointed, and are not apropriate for long-term
+      storage. Local scratch directories, and all data contained in
+      them, are removed automatically when the running job
+      ends.</em></strong></p>
+
+<h2>General-purpose global scratch</h2>
+
+<p>A central general-purpose scratch filesystem is available
+  at <code>/rc_scratch/$USER/</code>.
+
+<p>No administrative limits are placed on the amount of data that can
+  be placed in a general-purpose global scratch directory.</p>
+
+<p>Janus compute nodes should use the high-performance Lustre scratch
+  filesystem, not the general-purpose scratch filesystem. As such, the
+  general-purpose scratch filesystem is mounted read-only on Janus
+  compute nodes.</p>
+
+<p><strong><em>General-purpose scratch directories are not backed up
+      or checkpointed, and are not apropriate for long-term
+      storage. Data may be purged at any time. Files are automatically
+      removed 90 days after their initial creation
+      (<code>ctime</code>).</em></strong> You can check whether you
+  have files older than 90 days using <code>find</code>.</p>
+
+<pre><code>$ find /rc_scratch/$USER/ -type f -ctime +90</code></pre>
+
+<h2>High-performance global scratch</h2>
+
+<p>A central high-performance scratch Lustre filesystem is available
+  at <code>/lustre/janus_scratch/$USER/</code>.
+
+<p>No administrative limits are placed on the amount of data that can
+  be placed in a high-performance global scratch directory.</p>
+
+<p>Non-Janus compute nodes have access to the high-performance Lustre
+  scratch filesystem, but are not connected via a high-performance
+  network. Local scratch directories or the general-purpose scratch
+  filesystem are likely to provide better performance on non-Janus
+  nodes.</p>
+
+<p><strong><em>High-performance scratch directories are not backed up
+      or checkpointed, and are not apropriate for long-term
+      storage. Data may be purged at any time. Files are automatically
+      removed 180 days after their initial creation
+      (<code>ctime</code>).</em></strong> You can check whether you
+  have files older than 180 days using <code>lfs find</code>.</p>
+
+<pre><code>$ lfs find /lustre/janus_scratch/$USER/ -type f -ctime +180</code></pre>
