@@ -1,0 +1,265 @@
+<meta charset="utf-8">
+
+<h1>File and data transfer</h1>
+
+<p>Research Computing offers two primary mechanisms for data transfer:
+  SSH-based scp and sftp; and GridFTP, including access from Globus
+  Connect.</p>
+
+<h2>SSH file transfer (SCP / SFTP)</h2>
+
+<p>SSH-based file transfer is not particularly efficient or performant
+  (especially compared to the Globus and GridFTP method detailed
+  below) but, because it uses the same software that is already used
+  for interaction with Research Computing resources, it is still
+  commonly used.</p>
+
+<h3>Command-line secure copy (SCP)</h3>
+
+<p>Files can be transferred to and from the Research Computing
+  environment using
+  the <a href="http://linux.die.net/man/1/scp"><code>scp</code></a>
+  command from a Unix or Linux command-line (including Mac OS X).</p>
+
+<pre><code>$ scp ${local_filename} ${rc_username}@login.rc.colorado.edu:</code></pre>
+
+<div class="tutorial">Tutorial: When transferring files
+  using <code>scp</code>, it is particularly useful to use OpenSSH
+  ControlMaster
+  to <a href="examples-and-tutorials/reduced-otp-password-entries.html">reduce
+  OTP password entries</a>.</div>
+
+<h3>Interactive clients</h3>
+
+<p>Files can also be trasferred to and from the Research Computing
+  environment using a number of interactive file transfer
+  applications. The most basic of these
+  is <a href="http://linux.die.net/man/1/sftp"><code>sftp</code></a>,
+  available from a Unix or Linux command-line (including Mac OS
+  X).</p>
+
+<pre><code>$ sftp ${rc_username}@login.rc.colorado.edu</code></pre>
+
+<p>Once an SFTP connection is established, files can be transferred
+  using the <code>get</code> and <code>put</code> commands. More
+  information can be accessed using the <code>help</code> command.</p>
+
+<p>Alternative (and graphical) file transfer clients are available for
+  Windows, including
+
+  <ul>
+    <li><a href="https://filezilla-project.org">FileZilla</a>, a
+      multi-protocol, multi-platform file-transfer application.</li>
+
+    <li><a href="http://winscp.net">WinSCP</a>, a basic SCP/SFTP
+      file-transfer application for Windows.</li>
+  </ul>
+</p>
+
+<p>Graphical file-transfer applications often retain passwords for
+  automatic authentication for later transfers. Because Research
+  Computing uses one-time passwords for
+  authentication, <strong><em>you must disable password retention /
+  saving in your file-transfer client</em></strong>. Failure to do so
+  may cause your account to be temporarily disabled after the client
+  attempts and fails to authenticate repeatedly in the background.</p>
+
+<h3>File-system and application integration</h3>
+
+<p>SSH-accessible filesystems can be directly integrated into
+  compatible applications and Operating Systems.</p>
+
+<ul>
+  <li><a href="http://fuse.sourceforge.net/sshfs.html">SSHFS, a
+      FUSE-based filesystem implementation used to mount remote
+      SSH-accessible filesystems, is available for
+      Linux, <a href="https://osxfuse.github.io">OS X</a>, and even
+      <a href="https://code.google.com/p/win-sshfs/"Windows</a>.</li>
+  <li>Emacs <a href="http://www.emacswiki.org/emacs/TrampMode"><code>tramp-mode</code></a>
+    can be configured to access files on remote systems over SSH.</li>
+</ul>
+
+<p>Configuration of these OS and application-level integrations is
+  currently outside the scope of this guide.</p>
+
+<h2>Globus and GridFTP</h2>
+
+<p>Globus addresses deficiencies in secure copy requests by automating
+  large data transfers, by resuming failed transfers, and by
+  simplifying the implementation of high-performance transfers between
+  computing centers.</p>
+
+<h3>Globus.org and Globus Connect</h3>
+
+<p>Globus Connect is a Software as a Service (SaaS) deployment of the
+  Globus Toolkit which provides end-users with a browser interface to
+  initiate data transfers between endpoints registered with the Globus
+  Alliance. Globus Connect allows registered users to “drag and drop”
+  files from one endpoint to another. Endpoints are terminals for
+  data; they can be laptops or supercomputers, and anything in
+  between. The servers at Globus.org act as
+  intermediaries-negotiating, monitoring and optimizing transfers
+  through firewalls and across network address translation
+  (NAT). Under certain circumstances with high performance hardware
+  transfer rates exceeding 1Gb/s are possible. Due to its ease of use,
+  Globus Connect is recommended for individuals without extensive IT
+  experience.</p>
+
+<p>We recommend reading through Open Science Grid's
+  excellent <a href="https://twiki.grid.iu.edu/bin/view/ReleaseDocumentation/GlobusOnlineTutorial">Globus
+  Online tutorial</a>.  Note that the “Activating an Endpoint” section
+  does not pertain to Research Computing’s configuration.</p>
+
+<h4>Getting an account</h4>
+
+<p>To use Globus Connect, you will first need to sign up for an
+  account at <a href="https://www.globus.org/">Globus.org</a>. Once you have a Globus.org account, you can (optionally) associate your CU IdentiKey with your account: from the
+  <a href="https://www.globus.org/SignIn">SignIn</a> page, follow the
+  "alternate login" link and select "InCommon" from the
+  available choices.</p>
+
+<h4>Transferring data to/from a local workstation</h4>
+
+<p>You can use Globus Connect to transfer data between your local
+  workstation (e.g., your laptop or desktop) and Research
+  Computing. In this workflow, you configure your local workstation as
+  a Globus endpoint using Globus Connect.</p>
+
+<ol>
+  <li>Log in to Globus.org</li>
+
+  <li>Use
+     the <a href="https://www.globus.org/xfer/ManageEndpoints/">Manage
+     Endpoints</a> interface to “add Globus Connect Personal” as an
+     endpoint.
+     (<a href="https://support.globus.org/entries/23879396">More
+     information at Globus.org support.</a>)</li>
+  <li><a href="https://www.globus.org/xfer/StartTransfer">Transfer
+      Files</a>, using your new workstation endpoint for one side of
+      the transfer, the Research Computing endpoint
+      (<code>colorado#gridftp</code>) for the other side. (You will be
+      required to authenticate to the Research Computing endpoint
+      using your RC account and OTP.)</li>
+</ol>
+
+<h4>Trasferring data between two remote endpoints</h4>
+
+<p>Globus.org can also be used to transfer data between two remote
+  Globus endpoints (e.g., between your local compute center's Globus
+  endpoint and the Research Computing endpoint.)</p>
+
+<ol>
+  <li>Log in to Globus.org</li>
+
+  <li><a href="https://www.globus.org/xfer/StartTransfer">Transfer
+      Files</a>, using the Research Computing endpoint
+      (<code>colorado#gridftp</code>) for one side of the transfer,
+      and another endpoint of your choice for the other side. (You
+      will be required to authenticate to the Research Computing
+      endpoint using your RC account and OTP. The other endpoint may
+      require its own authentication as well.)</li>
+</ol>
+
+<h4>Globus Connect command-line interface</h4>
+
+<p>Globus.org provides a command-line interface (CLI) as an
+  alternative to its web interface. This command-line interface is
+  provided over an SSH connection to a Globus.org server.</p>
+
+<ol>
+  <li>Use
+    the <a href="https://www.globus.org/account/ManageIdentities">Manage
+    Identities</a> interface at Globus.org to upload your ssh public
+    key.</li>
+
+  <li>
+    <p>Connect to Globus.org using an ssh client.</p>
+
+    <pre><code>$ ssh -l ${globus_username} cli.globusonline.org</code></pre>
+  </li>
+
+  <li>The Globus.org command-line interface can start and manage
+    transfers, manage files on an endpoint, and configure endpoints
+    associated with your account. Use the <code>help</code> command
+    for more information on the commands available, or visit
+    the <a href="https://support.globus.org/entries/30058643/">Globus.org
+    support system</a>.</li>
+</ol>
+
+<h3>GridFTP</h3>
+
+<p>The Research Computing Globus endpoint
+  (<code>colorado#gridftp</code>) is served by four physical
+  servers. Globus automatically automizes transfers using these
+  four servers.</p>
+
+<p>GridFTP provides much of the underlying framework for Globus
+  Connect and is part of the Globus Toolkit, but it can be used
+  independently of Globus.org and Globus Connect, particularly if your
+  site already has a Globus and GridFTP infrastructure in place.</p>
+
+<p>Benchmarks indicate indicate that a fully-tuned manual GridFTP
+  transfer
+  (using <a href="http://toolkit.globus.org/toolkit/docs/5.2/5.2.4/appendices/commands/#globus-url-copy"><code>globus-url-copy</code></a>)
+  is only marginally faster than the same transfer using
+  Globus.org. Both are significantly faster than SSH-based file
+  transfer (e.g., <code>scp</code>, <code>sftp</code>).</p>
+
+<ol>
+  <li>
+    <p>Bootstrap trust in the Research Computing MyProxy CA server
+      (<code>gridftp-00.rc.colorado.edu</code>).</p>
+
+    <pre><code>$ export MYPROXY_SERVER_DN="${MYPROXY_SERVER_DN}/C=US/O=Globus Consortium/OU=Globus Connect Service/CN=e40cb9bc-033a-11e1-bc86-12313804ec2a"
+$ myproxy-logon --trustroots --bootstrap --pshost gridftp-00.rc.colorado.edu --username ${cu_username}</code></pre>
+
+    <p>This exports a non-standard certificate Distinguished Name to
+      your environment and downloads certificates to bootstrap trust
+      in our CA server.</p>
+  </li>
+
+  <li>
+    <p>Initiate a transfer using <code>globus-url-copy</code>,
+      specifying a Research Computing GridFTP server DN with
+      the <code>-source-subject</code> (<code>-ss</code>)
+      argument.</p>
+
+    <pre><code>$ globus-url-copy -ss "/C=US/O=Globus Consortium/OU=Globus Connect Service/CN=e40cb9bc-033a-11e1-bc86-12313804ec2a" gsiftp://gridftp-00.rc.colorado.edu:2811/${remote_path} file:///${local_path}</code></pre>
+  </li>
+</ol>
+
+<p>The above is only a minimal example, and would only open a
+connection to a single Research Computing GridFTP server
+(<code>gridftp-00</code>. To learn more about using GridFTP, read
+the <a href="http://toolkit.globus.org/toolkit/docs/6.0/gridftp/user/#gridftpUser">GridFTP
+User's Guide</a>.</p>
+
+<h4>Research Computing GridFTP servers</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hostname</th>
+      <th>DN</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td><code>gridftp-00.rc.colorado.edu</code></td>
+      <td><code>/C=US/O=Globus Consortium/OU=Globus Connect Service/CN=842a610a-4de7-11e1-9674-123138151443</code></td>
+    </tr>
+    <tr>
+      <td><code>gridftp-01.rc.colorado.edu</code></td>
+      <td><code>/C=US/O=Globus Consortium/OU=Globus Connect Service/CN=07c806de-4de8-11e1-9674-123138151443</code></td>
+    </tr>
+    <tr>
+      <td><code>gridftp-02.rc.colorado.edu</code></td>
+      <td><code>/C=US/O=Globus Consortium/OU=Globus Connect Service/CN=cda08b74-4de8-11e1-9674-123138151443</code></td>
+    </tr>
+    <tr>
+      <td><code>gridftp-03.rc.colorado.edu</code></td>
+      <td><code>/C=US/O=Globus Consortium/OU=Globus Connect Service/CN=49fb3c14-4de9-11e1-9674-123138151443</code></td>
+    </tr>
+  </tbody>
+</table>
