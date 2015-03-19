@@ -41,19 +41,52 @@
 
 <h2>Local scratch</h2>
 
-<p>Local scratch directores are created automatically on compute nodes
-  during job execution. Because these directories are created and
-  removed automatically, the location of the directory is assigned to
-  the <code>$TMPDIR</code> environment variable.</p>
+<p>Local scratch directores are assigned automatically on compute
+  nodes during job execution. Because these directories are assigned
+  and removed automatically, the location of the directory is assigned
+  to the <code>$SLURM_SCRATCH</code> environment variable.</p>
 
 <p>No administrative limits are placed on the amount of data that can
-  be placed in a temporary local scratch directory.</p>
+  be placed in a temporary local scratch directory. Scratch
+  directories are limited only by the physical capacity of their
+  storage. However, some nodes create local scratch directories using
+  an in-memory <code>tmpfs</code> filesystem. In this case, use of the
+  scratch directory reduces the system memory available for the
+  job.</p>
 
 <p><strong><em>Local scratch directories are not backed up or
       checkpointed, and are not apropriate for long-term
       storage. Local scratch directories, and all data contained in
       them, are removed automatically when the running job
       ends.</em></strong></p>
+
+<table>
+  <caption>Implementation of local scratch directories</caption>
+
+  <thead>
+    <tr>
+      <th>Partition</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Janus</td>
+      <td>12 GB in-memory <code>tmpfs</code> filesystem. Because
+        Janus nodes have no <code>swap</code> space, scratch files
+        directly compete with job processes for system memory.</td>
+    </tr>
+    <tr>
+      <td>Himem</td>
+      <td>10 TB local RAID filesystem.</td>
+    </tr>
+    <tr>
+      <td>Serial</td>
+      <td>1.8 TB local RAID filesystem.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2>General-purpose global scratch</h2>
 
