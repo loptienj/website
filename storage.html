@@ -118,7 +118,7 @@
 <h2>High-performance global scratch</h2>
 
 <p>A central high-performance scratch Lustre filesystem is available
-  at <code>/lustre/janus_scratch/$USER/</code>.
+  at <code>/lustre/janus_scratch/$USER/</code>.</p>
 
 <p>No administrative limits are placed on the amount of data that can
   be placed in a high-performance global scratch directory.</p>
@@ -137,3 +137,33 @@
   have files older than 180 days using <code>lfs find</code>.</p>
 
 <pre><code>$ lfs find /lustre/janus_scratch/$USER/ -type f -ctime +180</code></pre>
+
+<p>Janus Lustre is served by a DDN EXAScaler appliance running Lustre
+  version 2.1.6.</p>
+
+<h3>Metadata storage (<code>MDS</code>/<code>MDT</code>)</h3>
+
+<ul>
+  <li>2 Dell R710 MDS servers with QDR InfiniBand links to the Janus
+    InfiniBand network</li>
+  <li>DDN EF-3010 metadata disk controller with two 4Gb FibreChannel
+    links to each Lustre metadata server (MDS)</li>
+  <li>12 15k RPM SAS disks aggregated into a RAID 10 virtual metadata
+    disk</li>
+</ul>
+
+<h3>Object storage (<code>OSS</code>/<code>OST</code>)</h3>
+
+<ul>
+  <li>8 Dell R710 OSS servers with QDR InfiniBand links to the Janus
+    InfiniBand network</li>
+  <li>4 DDN SFA10000 disk controllers each with two QDR InfiniBand
+    links to the Lustre object storage servers (OSS)</li>
+  <li>10 DDN SS6000 disk enclosures attached to the SFA10000 disk
+  controllers</li>
+  <li>600 2TB SATA disks (60 in each of the SS6000 disk enclosures)
+    aggregated into 60 RAID-6 virtual disks</li>
+</ul>
+
+<div class="tutorial">Tutorial: <a href="examples-and-tutorials/parallel-io-on-janus-lustre.html">Parallel
+    IO on Janus Lustre</a></div>

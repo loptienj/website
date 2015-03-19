@@ -1,0 +1,339 @@
+<meta charset="utf-8">
+
+<p>Shared filesystems benefit from maximizing each user’s efficient
+  utilization of resources, in turn increasing collective performance
+  and reliability. Appropriation and misuse by a single user may
+  reduce performance or interrupt service across the entire computing
+  infrastructure. While Janus’ Lustre scratch file system presents a
+  familiar POSIX interface to the user, the structure differs
+  substantially from common file systems like ext4, NTFS, or HFS+.
+  Examining some of Lustre’s operational details may increase the end
+  user’s application performance and facilitate equitable usage of the
+  file system.</p>
+
+<h2>Best practices</h2>
+
+<ul>
+  <li>Reading, writing, and removing many small files burdens the file
+    system and can slow it down for all users.</li>
+
+  <li>Placing too many files in a single directory negatively impacts
+    performance.</li>
+
+  <li>Avoid using <code>ls -l</code> (or any <code>ls</code> command
+    that uses the <code>-l</code> flag, or any command that
+    must <code>stat</code> many files in quick succession.</li>
+
+  <li><strong>Do not</strong> use wildcards (<code>*</code>) in
+    directories containing thousands of files.</li>
+
+  <li>Avoid unnecessary use of stderr and stdout streams from parallel
+    processes.</li>
+
+  <li>Place large files into a directory with a high stripe count. (On
+    Janus Lustre, a reasonable starting point for testing is a stripe
+    count of 6 for files of about 100 MB. A stripe count above 10 may
+    not improve performance except for files larger than 10s of
+    GB.)</li>
+
+  <li>Store small files, or directories containing many small files,
+    on a single OST (stripe count 1) to reduce contention.</li>
+
+  <li>Open files read-only, specifying O_NOATIME if there is no reason
+    to update the access time.</li>
+
+  <li>If many processes need the <code>stat</code> information from a
+    single file, it is most efficient to have a single process perform
+    the <code>stat</code> call and broadcast the results.</li>
+
+  <li>Avoid frequently opening files in append mode, writing small
+    amounts of data, and closing the file.</li>
+
+  <li>Instead of reading a small file from every task, read the entire
+    file from one task and broadcast the contents to all other
+    tasks.</li>
+</ul>
+
+<h2>Lustre</h2>
+
+<p>Lustre is an object storage system, rather than a block storage
+  system. While block file systems access data as sectors on hard
+  disks, object storage systems perform IO on higher-level data
+  structures called objects. Typically IO is restricted to
+  whole-object manipulation via an Application Programming Interface
+  (API). Lustre is <acronym title="Portable Operating System Interface">POSIX</acronym>
+  compliant, meaning that it complies with the IEEE standard suite for
+  operating system compatability. Users may access the file system
+  without any knowledge of the underlying objects.</p>
+
+<p>As adapted from the <a href="https://wiki.hpdd.intel.com/display/PUB/Documentation">Lustre 2.x Filesystem Operations Manual</a>:
+  <dl>
+    <dt>Metadata Server (MDS)</dt>
+    <dd>The MDS serves metadata stored in the metadata logical disk
+      (MDT) to Lustre clients.  Each MDS manages the Lustre file
+      system namespace and provides network request handling for one
+      or more local MDTs.</dd>
+
+    <dt>Metadata Target (MDT)</dt>
+    <dd>The MDT stores metadata (such as filenames, directories,
+      permissions and file layout) on storage attached to an MDS. Each
+      file system has one MDT. An MDT on a shared storage target can
+      be available to multiple MDSs, although only one can access it
+      at a time. If an active MDS fails, a standby MDS can serve the
+      MDT and make it available to clients. This is referred to as MDS
+      failover.</dd>
+
+    <dt>Object Storage Target (OST)</dt>
+    <dd>On Janus Lustre, an OST is a LUN created from a RAID6 pool of
+      2TB SATA disks.  User file data is stored in one or more
+      objects, with each object on a separate OST in a Lustre file
+      system.  The number of objects per file is configurable by the
+      user and can be tuned to optimize performance for a given
+      workload.</dd>
+
+    <dt>Object Storage Servers (OSS)</dt>
+    <dd>The OSS provides file I/O service and network request handling
+      for one or more local OSTs.  Typically, an OSS serves between
+      two and eight OSTs, up to 16 TB each.  A typical configuration
+      is an MDT on a dedicated node, two or more OSTs on each OSS
+      node, and a client on each of a large number of compute
+      nodes.</dd>
+
+    <dt>Lustre clients</dt>
+    <dd>Lustre clients are computational, visualization, desktop, or
+      data transfer nodes that are running Lustre client software,
+      allowing them to mount the Lustre file system.  The Lustre
+      client software provides an interface between the Linux virtual
+      file system and the Lustre servers.
+
+      <ul>
+        <li>management client (MGC)</li>
+        <li>metadata client (MDC)</li>
+        <li>object storage clients (OSCs)</li>
+      </ul>
+    </dd>
+
+    <dt>Logical Object Volume (LOV)</dt>
+    <dd>A LOV aggregates the OSCs to provide transparent access across
+      all the OSTs.  Thus, a client with the Lustre file system
+      mounted sees a single, coherent, synchronized namespace.
+      Several clients can write to different parts of the same file
+      simultaneously, while other clients can read from the file.</dd>
+  </dl>
+</p>
+
+<figure>
+  <img style="width: 100%" src="parallel-io-on-janus-lustre/figure1.png">
+</figure>
+
+<p>When a Lustre client submits an IO request to the MDS, the MDS
+  returns the “layout EA” (Extended Attributes) and File IDentifier
+  (FID). FIDs are used to identify a file and where it resides on disk
+  (i.e., the file's "metadata", the closest equivalent to an
+  inode). An FID is comprised of a unique 64-bit sequence number, a
+  32-bit Object ID (OID), and a 32-bit version number. The layout EA
+  provides the client with the object to OST mapping, and OST to OSS
+  association. Subsequent transactions occur simultaneously between
+  the client and the OSS hosts managing the OSTs containing object
+  segments, avoiding the bottleneck of communications with the single
+  MDS. The single active MDS is the source of the HPC adage: “Lustre
+  doesn’t have great metadata performance.”</p>
+
+<figure>
+  <img style="width: 100%" src="parallel-io-on-janus-lustre/figure2.png">
+</figure>
+
+<h2>File striping</h2>
+
+<p>One of the primary features of Lustre is the ability to distribute
+  sections of a file (stripes) across a specified number of OSTs using
+  a round-robin algorithm.  Lustre assigns a default stripe count of
+  1, which instructs the file system to place the entire file on 1
+  OST, and a stripe size of 1 MB. Users can alter the striping of a
+  directory or file, with files inheriting the stripe count of their
+  parent directory. File striping increases the bandwidth available to
+  the client by parallelizing IO to multiple servers and ensures that
+  a single OST isn’t filled by a small number of large files.
+  However, setting the stripe count too high can result in unnecessary
+  network utilization and server contention.</p>
+
+<p>Aligned IO is an important component of optimal file system
+  utilization. A file striping is said to be aligned if it can be
+  “accessed at offsets that correspond to stripe boundaries.”</p>
+
+<figure>
+  <img style="width: 100%" src="parallel-io-on-janus-lustre/figure3.png">
+</figure>
+
+<p>In an example 4 MB write, using the default stripe size of 1 MB and
+  a stripe count of 3, the file would be written in four
+  stripes.
+
+  <ul>
+    <li>Process 0 writes 0.5 MB starting at offset 0 MB</li>
+    <li>Process 1 writes 1.25 MB starting at offset 0.5 MB</li>
+    <li>Process 2 writes 2.25 MB starting at offset 1.75 MB</li>
+  </ul>
+
+  Since these four writes are not an integer multiple of the
+  1 MB stripe size, they are considered unaligned.</p>
+
+<figure>
+  <img style="width: 100%" src="parallel-io-on-janus-lustre/figure4.png">
+</figure>
+
+<p>This access pattern is inefficient, necessitating 6 writes. The OSS
+  hosts process the additional requests, inducing unnecessary IO on
+  the OSTs. Unaligned access also causes additional contention from IO
+  requests that are not aligned to file extent (byte-range) lock
+  boundaries, potentially reducing application performance
+  significantly.</p>
+
+<p>An aligned alternative to this write pattern could be for process 0
+  and 1 to each write 1 MB, leaving Proc 2 to write two (1 MB)
+  stripes, totaling 4 operations.</p>
+
+<p>Performing aligned IO can be automated using MPI-IO with the
+  ADIO/ROMIO Lustre drivers.</p>
+
+<p>Stripe settings for a given file or directory can be accessed using
+  the <code>lfs getstripe</code> and <code>lfs setstripe</code>
+  commands.</p>
+
+<pre><code>$ lfs getstripe /lustre/janus_scratch/$USER/testfile
+/lustre/janus_scratch/username/testfile
+lmm_stripe_count:   60
+lmm_stripe_size:    1048576
+lmm_layout_gen:     0
+lmm_stripe_offset:  16
+        obdidx      objid           objid                     group
+        16          41470855        0x278cb87                 0
+        43          39823010        0x25fa6a2                 0
+        25          42664951        0x28b03f7                 0
+         2          38995264        0x2530540                 0
+        39          39838779        0x25fe43b                 0
+         4          41093613        0x27309ed                 0
+        13          40132541        0x2645fbd                 0
+        58          39266789        0x25729e5                 0
+        54          37891979        0x2422f8b                 0
+        46          37399198        0x23aaa9e                 0
+        36          38519155        0x24bc173                 0
+        47          40141032        0x26480e8                 0
+[...]</code></pre>
+
+<p>As indicated by <code>lmm_stripe_count</code>
+  and <code>lmm_stripe_size</code>, the file is comprised of 60 1 MiB
+  objects (stripes). The <code>obdidx</code> column lists the OSTs
+  containing the objects in question.</p>
+
+<p>For circumstances where striping is not desirable, setting the
+  stripe count to 1 disables file striping.</p>
+
+<pre><code>$ lfs setstripe /lustre/janus_scratch/$USER/testdir -c 1</code></pre>
+
+<p>Setting the stripe count to -1 stripes across all available
+  OSTs. (Not recommended for smaller than 1 TB.)</p>
+
+<pre><code>$ lfs setstripe /lustre/janus_scratch/$USER/testdir -c -1</code></pre>
+
+<p>For more information on the <code>lfs getstripe</code>
+  and <code>lfs setstripe</code> commands, run the commands <code>lfs
+    help getstripe</code> and <code>lfs help setstripe</code>.</p>
+
+<h2>Directory structures for storing many files</h2>
+
+<p>Use a two-tier directory structure for large numbers of files
+  (approximately 10,000), with √n directories each containing √n
+  files. Even reading from a single file in a directory containing
+  tens of thousands will severely reduce performance across the entire
+  system! For more information, see Access Patterns and IO.</p>
+
+<h2>Listing and finding files (<code>ls</code> and <code>find</code>)</h2>
+
+<p>The <code>–l</code> argument to <code>ls</code> requires Lustre to
+  connect to every <acronym title="object storage target">OST</acronym>
+  that contains a listed file, and is correspondingly expensive. A
+  simple <code>ls</code> command retrieves the listing from the
+  <acronym title="metadata server">MDS</acronym>. (<code>ls –f</code>
+  is the fastest option, avoiding the sort operation.)</p>
+
+<p>Many systems alias <code>ls</code> to
+  use <code>-–color=auto</code>, which may behave similarly
+  to <code>ls –l</code>. Specifying <code>/bin/ls</code> explicitly,
+  or running <code>unalias ls</code>, will avoid this potential
+  performance impact.</p>
+
+<p>The most efficient option is to use the Lustre <code>lfs
+  find</code> command.</p>
+
+<pre><code>$ lfs find --maxdepth 0 /lustre/janus_scratch/$USER/</code></pre>
+
+<p>The <code>lfs find</code> command is preferred even to the
+  system <code>find</code> command, and supports many of the
+  POSIX <code>find</code> operations. For more information on
+  using <code>lfs find</code>, run the command <code>lfs help
+    find</code>.</p>
+
+<h2>Operating on many files at once</h2>
+
+<p>Executing <code>rm –rf *</code> or <code>tar</code> in a directory
+  with tens of thousands of files can paralyze Lustre’s MDS. Users
+  attempting to issue wildcards or globbing with Linux binaries have
+  brought the entire cluster down.</p>
+
+<p>An alternative to these operations is to use the <code>lfs
+    find</code> command to select files for passing to a later
+    executable.</p>
+
+<pre><code>$ lfs find /lustre/janus_scratch/username/subdirectory --type f -print0 |
+  xargs -0 rm -f</code></pre>
+
+<p>This ensures that the files are deleted serially, substantially
+  reducing load on the MDS, and OST contention. A corollary to this is
+  to restrict the creation of many small files during a compute
+  job. Sustained file creation rates of more than about 500 files per
+  second are likely to cause problematic load.</p>
+
+<h2>MPI-IO</h2>
+
+<p>MPI-IO forms an entire category of research in parallel file system
+  utilization.  Data-sieving, interleaving, and collective IO can
+  yield substantial application performance gains. We recommend the
+  following reading for more information on optimizing your use of
+  Lustre with MPI-IO:
+
+  <ul>
+    <li><a href="http://www.hdfgroup.org/pubs/papers/howison_hdf5_lustre_iasds2010.pdf">Tuning
+        HDF5 for Lustre File Systems</a>, covers group-cyclic (many-to-one
+      collective IO mapping from aggregators to OSTs) and static-cyclic
+      (one-to-one mapping from aggregators to OSTs) patterns.</li>
+
+    <li><a href="https://trac.mcs.anl.gov/projects/iofsl/export/166ac6d1ff3823426d78a5f7aa55a46a8212cb57/papers/04227967.pdf">An
+        Implementation and Evaluation of Client-Side File Caching for
+        MPI-IO</a>, covers collective IO performance gains discusses
+        metadata and file locking, cache management, optimization of
+        data-partitioning patterns, and file domain alignment via
+        ROMIO/ADIO.</li>
+
+    <li><a href="http://www.umcs.maine.edu/~dickens/pubs/Luster.PostFinal.pdf">Towards
+        a High Performance Implementation of MPI-IO on the Lustre File
+        System</a>, an excellent reference for MPI-IO aggregation
+        patterns and access.</li>
+  </ul>
+</p>
+
+<h2>Further reading</h2>
+
+<ul>
+  <li><a href="https://www.nics.tennessee.edu/computing-resources/file-systems/io-lustre-tips">I/O
+      and Lustre Usage</a>, NICS</li>
+
+  <li><a href="http://www.nersc.gov/users/data-and-file-systems/optimizing-io-performance-for-lustre/">Optimizing
+      I/O Performance on the Lustre File System</a>, NERSC</li>
+
+  <li><a href="http://wiki.lustre.org/images/9/90/Peta-Scale_wp.pdf">Peta-scale
+      I/O with the Lustre File System</a>, Sun microsystems</li>
+
+  <li><a href="http://wiki.lustre.org/images/6/65/Lustre_ADIO_Driver_Whitepaper_0926.pdf">Lustre
+      ADIO collective write driver</a>, Sun microsystems</li>
+</ul>
