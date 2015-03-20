@@ -3,11 +3,12 @@
 <h1>Batch queueing and job scheduling</h1>
 
 <p>Research Computing uses a system
-called <a href="http://slurm.schedmd.com">Slurm</a> to manage compute
-resources and to schedule jobs that use them. (For those familiar with
-previous generations of the RC environment, Slurm has replaced Torque
-and Moab.) Users use Slurm commands to submit batch and interactive
-jobs and to monitor their progress during execution.</p>
+  called <a href="http://slurm.schedmd.com">Slurm</a> to manage
+  compute resources and to schedule jobs that use them. (For those
+  familiar with previous generations of the RC environment, Slurm has
+  replaced Torque and Moab.) Users use Slurm commands to submit batch
+  and interactive jobs and to monitor their progress during
+  execution.</p>
 
 <p>Access to Slurm is provided by the <code>slurm</code> module.</p>
 
@@ -16,61 +17,62 @@ jobs and to monitor their progress during execution.</p>
 <h2>Batch jobs</h2>
 
 <p>Slurm is primarily a resource manager for batch jobs: a user writes
-a job script that slurm schedules to run non-interactively when
-resources are available.</p> Users primarily submit computational jobs
-to the slurm queue using
+  a job script that slurm schedules to run non-interactively when
+  resources are available.</p> Users primarily submit computational
+jobs to the slurm queue using
 the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
 command.</p>
 
 <pre><code>$ sbatch job-script.sh</code></pre>
 
 <p><code>sbatch</code> takes a number of command-line arguments. These
-arguments can be supplied on the command-line...</p>
+  arguments can be supplied on the command-line...</p>
 
 <pre><code>$ sbatch --ntasks 16 job-script.sh</code></pre>
 
 <p>Or embedded in the header of the job script itself
-using <code>#SBATCH</code> directives.</p>
+  using <code>#SBATCH</code> directives.</p>
 
-<pre><code>#!/bin/bash
-#SBATCH --ntasks 16</code></pre>
+<pre><code>#!/bin/bash #SBATCH --ntasks 16</code></pre>
 
 <p>You can use
-the <code><a href="http://www.schedmd.com/slurmdocs/scancel.html">scancel</a></code>
-command to cancel a job that has been queued, whether the job is
-pending or currently running. Jobs are cancelled by specifying the job
-id that is assigned to the job during submission.</p>
+  the <code><a href="http://www.schedmd.com/slurmdocs/scancel.html">scancel</a></code>
+  command to cancel a job that has been queued, whether the job is
+  pending or currently running. Jobs are cancelled by specifying the
+  job id that is assigned to the job during submission.</p>
 
 <h3>Example batch job script: <code>hello-world.sh</code></h3>
 
 <pre><code>#!/bin/bash
 
-#SBATCH --ntasks 1
-#SBATCH --output hello-world.out
-#SBATCH --qos janus-debug
+    #SBATCH --ntasks 1 #SBATCH --output hello-world.out #SBATCH --qos
+    janus-debug
 
-echo "Running on $(hostname --fqdn):
-echo 'Hello, world!'</code></pre>
+    echo "Running on $(hostname --fqdn): echo 'Hello,
+    world!'</code></pre>
 
 <p>This minimal example job script, <code>hello-world.sh</code>, when
-submitted with <code>sbatch</code>, writes the name of the cluster
-node on which the job ran, along with the standard programmer's
-greeting, "Hello, world!", into the output
-file <code>hello-world.out</code></p>
+  submitted with <code>sbatch</code>, writes the name of the cluster
+  node on which the job ran, along with the standard programmer's
+  greeting, "Hello, world!", into the output
+  file <code>hello-world.out</code></p>
 
 <pre><code>$ sbatch hello-world.sh</code></pre>
 
 
-<div class="example">Example: <a href="examples-and-tutorials/serial-jobs.html">Serial jobs</a></div>
+<div class="example">Example: <a href="examples-and-tutorials/serial-jobs.html">Serial
+    jobs</a></div>
 
-<div class="example">Example: <a href="examples-and-tutorials/parallel-mpi-jobs.html">Parallel mpi jobs</a></div>
+<div class="example">Example: <a href="examples-and-tutorials/parallel-mpi-jobs.html">Parallel
+    mpi jobs</a></div>
 
 <h2>Job requirements</h2>
 
 <p>Slurm uses the requirements declared by job scripts and submission
-arguments to schedule and execute jobs as efficiently as possible. To
-minimize the time your jobs spend waiting ro run, define your job's
-resource requirements as accurately as possible.</p>
+  arguments to schedule and execute jobs as efficiently as
+  possible. To minimize the time your jobs spend waiting ro run,
+  define your job's resource requirements as accurately as
+  possible.</p>
 
 <dl>
   <dt><code>--nodes</code></dt>
@@ -80,116 +82,116 @@ resource requirements as accurately as possible.</p>
   <dd>The amount of memory required on each node.</dd>
 
   <dt><code>--ntasks</code></dt>
-  <dd>The number of simultaneous tasks your job requires. (These
-    tasks are analogous to MPI ranks.)</dd>
+  <dd>The number of simultaneous tasks your job requires. (These tasks
+    are analogous to MPI ranks.)</dd>
 
   <dt><code>--time</code></dt>
   <dd>The amount of time your job needs to run.</dd>
 </dl>
 
 <p>The <code>--time</code> requirement (also referred to as
-"walltime") deserves special mention. Job execution time can be
-somwhat variable, leading some users to overestimate (or even
-maximize) the defined time limit to prevent premature job termination;
-but a longer time limit will delay the start of the job and allow
-undetected stuck jobs to waste more resources before they are
-terminated.</p>
+  "walltime") deserves special mention. Job execution time can be
+  somwhat variable, leading some users to overestimate (or even
+  maximize) the defined time limit to prevent premature job
+  termination; but a longer time limit will delay the start of the job
+  and allow undetected stuck jobs to waste more resources before they
+  are terminated.</p>
 
 <p>For all resources, <code>--time</code> included, smaller resource
-requirements lead to shorter wait times, and overall faster job
-execution.</p>
+  requirements lead to shorter wait times, and overall faster job
+  execution.</p>
 
 <p>"himem" and "crestone" nodes nodes are shared, meaning each such
-node may execute multiple jobs simutaneously, even from different
-users. All other nodes will only execute a single job each. This means
-that most jobs must allocate a minum of one whole node. Please plan
-your jobs accordingly to use the entire node and minimizing resource
-waste. (For assistance, please
-contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.)</p>
+  node may execute multiple jobs simutaneously, even from different
+  users. All other nodes will only execute a single job each. This
+  means that most jobs must allocate a minum of one whole node. Please
+  plan your jobs accordingly to use the entire node and minimizing
+  resource waste. (For assistance, please
+  contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.)</p>
 
 <p>Additional job parameters are documented with
-the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
-command.</p>
+  the <code><a href="http://www.schedmd.com/slurmdocs/sbatch.html">sbatch</a></code>
+  command.</p>
 
 <h2>Job arrays</h2>
 
 <p><a href="http://slurm.schedmd.com/job_array.html">Job arrays</a>
-provide a mechnaism for running several instances of the same job with
-minor variations.</p>
+  provide a mechnaism for running several instances of the same job
+  with minor variations.</p>
 
 <p>Job arrays are submitted using <code>sbatch</code>, similar to
-standard batch jobs.</p>
+  standard batch jobs.</p>
 
 <pre><code>sbatch --array=[0-9] job-script.sh</code></pre>
 
 <p>Each job in the array will have access to
-a <code>$SLURM_ARRAY_TASK_ID</code> set to the value that represents
-that job's position in the array. By consulting this variable, the
-running job can perform the appropriate variant task.</p>
+  a <code>$SLURM_ARRAY_TASK_ID</code> set to the value that represents
+  that job's position in the array. By consulting this variable, the
+  running job can perform the appropriate variant task.</p>
 
 <h3>Example array job script: <code>hello-world.sh</code></h3>
 
 <pre><code>#!/bin/bash
 
-#SBATCH --array 0-9
-#SBATCH --ntasks 1
-#SBATCH --output array-job.out
-#SBATCH --open-mode append
-#SBATCH --qos janus-debug
+    #SBATCH --array 0-9 #SBATCH --ntasks 1 #SBATCH --output
+    array-job.out #SBATCH --open-mode append #SBATCH --qos janus-debug
 
-echo "$(hostname --fqdn): index ${SLURM_ARRAY_TASK_ID}"</code></pre>
+    echo "$(hostname --fqdn): index
+    ${SLURM_ARRAY_TASK_ID}"</code></pre>
 
 <p>This minimal example job script, <code>array-job.sh</code>, when
-submitted with <code>sbatch</code>, submits ten jobs with indexes 0
-through 9. Each job appends the name of the cluster node on which the
-job ran, along with the job's array index, into the output
-file <code>array-job.out</code></p>
+  submitted with <code>sbatch</code>, submits ten jobs with indexes 0
+  through 9. Each job appends the name of the cluster node on which
+  the job ran, along with the job's array index, into the output
+  file <code>array-job.out</code></p>
 
 <pre><code>$ sbatch array-job.sh</code></pre>
 
 <h2>Accounts</h2>
 
 <p>Access to computational resources is moderated by finite
-allocations made to Slurm accounts. You can determine your default
-account using
-the <code><a href="http://slurm.schedmd.com/sacctmgr.html">saccountmgr</a></code>
-command.</p>
+  allocations made to Slurm accounts. You can determine your default
+  account using
+  the <code><a href="http://slurm.schedmd.com/sacctmgr.html">saccountmgr</a></code>
+  command.</p>
 
-<pre><code>$ sacctmgr list Users Users=$USER format=DefaultAccount</code></pre>
+<pre><code>$ sacctmgr list Users Users=$USER
+    format=DefaultAccount</code></pre>
 
 <p>Use the <code>--account</code> argument to submit a job for an
-account other than your default.</p>
+  account other than your default.</p>
 
 <pre><code>#SBATCH --account=crcsupport</code></pre>
 
 <p>You can use the <code>sacctmgr</code> command to list your
-available accounts.</p>
+  available accounts.</p>
 
-<pre><code>$ sacctmgr list Associations Users=$USER format=Account</code></pre>
+<pre><code>$ sacctmgr list Associations Users=$USER
+    format=Account</code></pre>
 
 <h2>Job mail</h2>
 
 <p>Slurm can be configured to send email notifications as a job
-executes. This is configured using the <code>--mail-type</code>
-and <code>--mail-user</code> arguments.</p>
+  executes. This is configured using the <code>--mail-type</code>
+  and <code>--mail-user</code> arguments.</p>
 
-<pre><code>#SBATCH --mail-type=END
-#SBATCH --mail-user=user@example.com</code></pre>
+<pre><code>#SBATCH --mail-type=END #SBATCH
+    --mail-user=user@example.com</code></pre>
 
 <p>The <code>--mail-type</code> configures what points during job
-execution should generate notifications. Valid values
-include <code>BEGIN</code>, <code>END</code>, <code>FAIL</code>,
-and <code>ALL</code>.</p>
+  execution should generate notifications. Valid values
+  include <code>BEGIN</code>, <code>END</code>, <code>FAIL</code>,
+  and <code>ALL</code>.</p>
 
 <h2>Resource accounting</h2>
 
 <p>Resources used by Slurm jobs are recorded in the Slurm accounting
-database. This accounting data is used to deduct resource use from
-resource allocations.</p>
+  database. This accounting data is used to deduct resource use from
+  resource allocations.</p>
 
 <p>The <a href="http://slurm.schedmd.com/sacct.html"><code>sacct</code></a>
-command displays accounting data from the Slurm accounting
-database. To query the accounting data for a single job, use
+  command displays accounting data from the Slurm accounting
+  database. To query the accounting data for a single job, use
   the <code>--job</code> argument.</p>
 
 <pre><code>sacct --job $jobid</code></pre>
@@ -198,41 +200,43 @@ database. To query the accounting data for a single job, use
   be patient.</p>
 
 <p>You can change the fields that are printed with
-the <code>--format</code> option, and the fields available can be
-listed using the <code>--helpformat</code> option.</p>
+  the <code>--format</code> option, and the fields available can be
+  listed using the <code>--helpformat</code> option.</p>
 
-<pre><code>$ sacct --job=200 --format=jobid,jobname,qos,user,nodelist,state,start,end
-       JobID    JobName        QOS      User        NodeList      State               Start                 End 
------------- ---------- ---------- --------- --------------- ---------- ------------------- ------------------- 
-200            test.run     normal  ralphie  node[1643,1677+  COMPLETED 2014-04-24T15:24:35 2014-04-24T15:24:40 
-200.batch         batch                             node1643  COMPLETED 2014-04-24T15:24:35 2014-04-24T15:24:40 
-200.0             orted                      node[1677,1724]  COMPLETED 2014-04-24T15:24:35 2014-04-24T15:24:40 </code></pre>
+<pre><code>$ sacct --job=200
+    --format=jobid,jobname,qos,user,nodelist,state,start,end JobID
+    JobName QOS User NodeList State Start End ------------ ----------
+    ---------- --------- --------------- ----------
+    ------------------- ------------------- 200 test.run normal
+    ralphie node[1643,1677+ COMPLETED 2014-04-24T15:24:35
+    2014-04-24T15:24:40 200.batch batch node1643 COMPLETED
+    2014-04-24T15:24:35 2014-04-24T15:24:40 200.0 orted
+    node[1677,1724] COMPLETED 2014-04-24T15:24:35
+    2014-04-24T15:24:40 </code></pre>
 
 <p>If you don't have a record of your job IDs, you can use date-range
-queries in <code>sacct</code> to find your job.</p>
+  queries in <code>sacct</code> to find your job.</p>
 
-<pre><code>$ sacct --user=$USER --starttime=2014-05-01 --endtime=2014-06-01
-       JobID    JobName  Partition    Account  AllocCPUS      State ExitCode 
------------- ---------- ---------- ---------- ---------- ---------- -------- 
-4944               bash      janus    ralphie          1  COMPLETED      0:0 
-4945               bash      janus    ralphie          1  COMPLETED      0:0 
-4946           test_job      janus    ralphie          1  COMPLETED      0:0 
-4946.batch        batch               ralphie          1  COMPLETED      0:0 
-4947           test_job      janus    ralphie          1  COMPLETED      0:0 
-4947.batch        batch               ralphie          1  COMPLETED      0:0 
-4948           test_job      janus    ralphie          1  COMPLETED      0:0 
-4948.batch        batch               ralphie          1  COMPLETED      0:0 </code></pre>
+<pre><code>$ sacct --user=$USER --starttime=2014-05-01
+    --endtime=2014-06-01 JobID JobName Partition Account AllocCPUS
+    State ExitCode ------------ ---------- ---------- ----------
+    ---------- ---------- -------- 4944 bash janus ralphie 1 COMPLETED
+    0:0 4945 bash janus ralphie 1 COMPLETED 0:0 4946 test_job janus
+    ralphie 1 COMPLETED 0:0 4946.batch batch ralphie 1 COMPLETED 0:0
+    4947 test_job janus ralphie 1 COMPLETED 0:0 4947.batch batch
+    ralphie 1 COMPLETED 0:0 4948 test_job janus ralphie 1 COMPLETED
+    0:0 4948.batch batch ralphie 1 COMPLETED 0:0 </code></pre>
 
 <h2>Quality of service (QOS)</h2>
 
 <p>The Research Computing environment uses quality-of-service, or QOS,
-values to classify jobs for scheduling on targeted resources or for
-specific prioritization. This parallels distinct queues seen in other
-queueing systems, as Slurm uses a single queue.</p>
+  values to classify jobs for scheduling on targeted resources or for
+  specific prioritization. This parallels distinct queues seen in
+  other queueing systems, as Slurm uses a single queue.</p>
 
 <p>When submitting a job, you can specify the QOS to use with
-the <code>--qos</code> argument. The <code>janus</code> QOS will be
-used by default when no QOS value is specified explicitly.</p>
+  the <code>--qos</code> argument. The <code>janus</code> QOS will be
+  used by default when no QOS value is specified explicitly.</p>
 
 <pre><code>#SBATCH --qos janus-debug</code></pre>
 
@@ -251,16 +255,14 @@ used by default when no QOS value is specified explicitly.</p>
   <tbody>
     <tr>
       <td>janus</td>
-      <td>24 hours</td>
-      <td/>
+      <td>24 hours</td> <td/>
       <td>480 nodes/job</td>
       <td>0</td>
       <td>Janus compute nodes (default)</td>
     </tr>
     <tr>
       <td>janus-long</td>
-      <td>7 days</td>
-      <td/>
+      <td>7 days</td> <td/>
       <td>40 nodes/user, 80 nodes total</td>
       <td>200</td>
       <td>Janus compute nodes for long jobs</td>
@@ -268,23 +270,19 @@ used by default when no QOS value is specified explicitly.</p>
     <tr>
       <td>janus-debug</td>
       <td>1 hour</td>
-      <td>2 running jobs/user, 4 queued (total) jobs/user</td>
-      <td/>
+      <td>2 running jobs/user, 4 queued (total) jobs/user</td> <td/>
       <td>400</td>
       <td>Janus compute nodes for interactive debugging</td>
     </tr>
     <tr>
       <td>himem</td>
-      <td>14 days</td>
-      <td/>
-      <td/>
+      <td>14 days</td> <td/> <td/>
       <td>0</td>
       <td>high-memory nodes</td>
     </tr>
     <tr>
       <td>crestone</td>
-      <td>14 days</td>
-      <td/>
+      <td>14 days</td> <td/>
       <td>10 nodes/user</td>
       <td>0</td>
       <td>serial / blade center nodes</td>
@@ -292,8 +290,7 @@ used by default when no QOS value is specified explicitly.</p>
     <tr>
       <td>gpu</td>
       <td>4 hours</td>
-      <td>2 running jobs/user</td>
-      <td/>
+      <td>2 running jobs/user</td> <td/>
       <td>0</td>
       <td>GPU-accellerated nodes</td>
     </tr>
@@ -303,63 +300,64 @@ used by default when no QOS value is specified explicitly.</p>
 <h2>Dedicated nodes for serial jobs</h2>
 
 <p>Sometimes Janus nodes have InfiniBand network problems that reduce
-their performance or ability to support parallel jobs.  When we detect
-such problems, we reserve these slow-communicating nodes using
-the <code>janus-serial</code> reservation.</p>
+  their performance or ability to support parallel jobs.  When we
+  detect such problems, we reserve these slow-communicating nodes
+  using the <code>janus-serial</code> reservation.</p>
 
 <p>If your job requires only a single node, you can access these
-resources using the <code>--reservation</code> option in
-your <code>sbatch</code> script or on the command-line.</p>
+  resources using the <code>--reservation</code> option in
+  your <code>sbatch</code> script or on the command-line.</p>
 
 <code>#SBATCH --reservation=janus-serial</code>
 
 <p>Because jobs using the <code>janus-serial</code> reservation do not
-compete for nodes with the majority of jobs, you may experience
-shorter queue wait times when using <code>janus-serial</code>.</p>
+  compete for nodes with the majority of jobs, you may experience
+  shorter queue wait times when using <code>janus-serial</code>.</p>
 
 <p>If you run a job on this reservation and see that it fails or does
-not run as fast as it should, you should not be running that job on
-this reservation. Stability is not guaranteed for multi-node jobs, but
-we know a lot of users have smaller jobs so we want to use as much of
-  Janus as possible.</p>
+  not run as fast as it should, you should not be running that job on
+  this reservation. Stability is not guaranteed for multi-node jobs,
+  but we know a lot of users have smaller jobs so we want to use as
+  much of Janus as possible.</p>
 
 <h2>Monitoring job progress</h2>
 
 <p>The <code><a href="http://slurm.schedmd.com/squeue.html">squeue</a></code>
-command can be used to inspect the the Slurm job queue and a job's
-progress through it.</p>
+  command can be used to inspect the the Slurm job queue and a job's
+  progress through it.</p>
 
 <p>By default, <code>squeue</code> will list all jobs currently queued
-by all users. This is useful for inspecting the position of one's jobs
-in the queue; but, more often, users simply want to inspect the
-current state of their own jobs.</p>
+  by all users. This is useful for inspecting the position of one's
+  jobs in the queue; but, more often, users simply want to inspect the
+  current state of their own jobs.</p>
 
 <pre><code>$ squeue --user=$USER</code></pre>
 
 <p>Slurm can provide an estimate of when your jobs will start, along
-with what resources it expects to dispatch your jobs to.</p>
+  with what resources it expects to dispatch your jobs to.</p>
 
 <pre><code>$ squeue --user=$USER --start</code></pre>
 
 <p>More detailed information about a specific job can be accessed
-using
-the <code><a href="http://slurm.schedmd.com/scontrol.html">scontrol</a></code>
+  using
+  the <code><a href="http://slurm.schedmd.com/scontrol.html">scontrol</a></code>
   command.</p>
 
 <pre><code>scontrol show job $SLURM_JOB_ID</code></pre>
 
 <div class="tutorial">Tutorial: <a href="examples-and-tutorials/interpreting-scontrol-job-information.html">Interpreting <code>scontrol</code>
-job information</a></div>
+    job information</a></div>
 
 <h2>Memory limits</h2>
 
 <p>To better balance the allocation of memory to CPUs (for example, to
-prevent users from letting their jobs use all the memory on a shared
-node while only requesting a single CPU), we have limited each CPU to
-a fixed amount of memory. This limit is dependent on the requested
-node. You can either specify how much memory you need in MB and let
-Slurm assign the correct number of CPUs, or you can properly set the
-number of CPUs and memory that your job will need.</p>
+  prevent users from letting their jobs use all the memory on a shared
+  node while only requesting a single CPU), we have limited each CPU
+  to a fixed amount of memory. This limit is dependent on the
+  requested node. You can either specify how much memory you need in
+  MB and let Slurm assign the correct number of CPUs, or you can
+  properly set the number of CPUs and memory that your job will
+  need.</p>
 
 <table>
   <thead>
@@ -399,61 +397,64 @@ number of CPUs and memory that your job will need.</p>
 <h2 id="interactive_jobs">Interactive jobs</h2>
 
 <p>Interactive jobs are commonly run with the <code>janus-debug</code>
-QOS as part of an interactive programming and debugging workflow. The
-simplest way to establish an interactive session is to use
-the <a href="https://github.com/jabl/sinteractive"><code>sinteractive</code></a>
-script, available in the slurm module.</p>
+  QOS as part of an interactive programming and debugging
+  workflow. The simplest way to establish an interactive session is to
+  use
+  the <a href="https://github.com/jabl/sinteractive"><code>sinteractive</code></a>
+  script, available in the slurm module.</p>
 
 <pre><code>$ sinteractive --qos janus-debug</code></pre>
 
 <p>The <code>sinteractive</code> script will open a login shell on the
-first allocated node, and supports X11 forwarding via the submission host.</p>
+  first allocated node, and supports X11 forwarding via the submission
+  host.</p>
 
 <p>If you prefer to submit an existing job script or other executable
-as an interactive job, use
-the <code><a href="http://slurm.schedmd.com/salloc.html">salloc</a></code>
-command.</p>
+  as an interactive job, use
+  the <code><a href="http://slurm.schedmd.com/salloc.html">salloc</a></code>
+  command.</p>
 
 <pre><code>$ salloc --qos janus-debug job-script.sh</code></pre>
 
 <p>If you do not provide a command to execute, <code>salloc</code> is
-configured to execute your default shell, similar to
-the <code>sinteractive</code> script.</p>
+  configured to execute your default shell, similar to
+  the <code>sinteractive</code> script.</p>
 
 <p>The <code>sinteractive</code> and <code>salloc</code> commands each
-support the same parameters as <code>sbatch</code>, and can override
-any default configuration. Note that any <code>#SBATCH</code>
-directives in your job script will not be interpreted
-by <code>salloc</code> when it is executed in this way. You must
-specify all arguments directly on the command line.</p>
+  support the same parameters as <code>sbatch</code>, and can override
+  any default configuration. Note that any <code>#SBATCH</code>
+  directives in your job script will not be interpreted
+  by <code>salloc</code> when it is executed in this way. You must
+  specify all arguments directly on the command line.</p>
 
 <h2>PBS compatibility</h2>
 
 <p>The <code>slurm</code> module provides a set of wrapper scripts to
-provide basic compatibility with the PBS interface.</p>
+  provide basic compatibility with the PBS interface.</p>
 
 <p>The PBS directive <code>#PBS -j oe</code>, when used in a job
-script and submitted with <code>qsub</code>, results in an error
-message and the job is not submitted. This is a known issue; if you
-leave off the <code>oe</code> you should get the expected
-behavior.</p>
+  script and submitted with <code>qsub</code>, results in an error
+  message and the job is not submitted. This is a known issue; if you
+  leave off the <code>oe</code> you should get the expected
+  behavior.</p>
 
 <p>The PBS directive <code>#PBS -q $qos</code>, when used in a job
-script and submitted with <code>qsub</code>, results in an error
-message and the job is not submitted. This is because Slurm is using a
-QOS instead of a queue. Either select the desired QOS using <code>qsub
--q</code> on the command-line or use the <code>#SBATCH
---qos=$qos</code> directive in your job script. (<code>#SBATCH</code>
-and <code>#PBS</code> directives can be mixed in the same job
-script.)</p>
+  script and submitted with <code>qsub</code>, results in an error
+  message and the job is not submitted. This is because Slurm is using
+  a QOS instead of a queue. Either select the desired QOS
+  using <code>qsub -q</code> on the command-line or use
+  the <code>#SBATCH --qos=$qos</code> directive in your job
+  script. (<code>#SBATCH</code> and <code>#PBS</code> directives can
+  be mixed in the same job script.)</p>
 
 <h2>Known issues</h2>
 
 <p>Users may sometimes encounter the following message in their job
-output:</p>
+  output:</p>
 
-<pre><code>slurmstepd: task/cgroup: unable to remove step memcg : No such file or directory ?</code></pre>
+<pre><code>slurmstepd: task/cgroup: unable to remove step memcg : No
+    such file or directory ?</code></pre>
 
 <p>This message results from an issue with the way slurm cleans up the
-job. We are working on fixing the issue but for now it is safe to
-ignore this warning.</p>
+  job. We are working on fixing the issue but for now it is safe to
+  ignore this warning.</p>
