@@ -1,0 +1,107 @@
+<meta charset="utf-8">
+
+<h1>Software Compilers</h1>
+
+<p>
+There are three compiler suites on Janus, their use is highlighted below.
+They are all obtained by loading the appropriate module.
+Please note, if you swap compiler suites you should unload the previous
+compiler before loading a new one. This can be done with the module unload
+command.
+</p>
+
+<p>
+We highly recommend using the Intel compiler and MPI suites.
+</p>
+
+<h2>Intel Compiler Suite</h2>
+<p>
+You should load the latest intel module, this is version 15.0.1.
+</p>
+
+<code>
+$ module load intel/intel-15.0.1
+</code>
+
+<p>
+This will provide you with the following compilers in your path
+</p>
+<table>
+	<tr>
+		<th>Language</th>
+		<th>Compiler</th>
+	</tr>
+	<tr>
+		<td>C</td>
+		<td>icc</td>
+	</tr>
+	<tr>
+		<td>Fortran</td>
+		<td>ifort</td>
+	</tr>
+	<tr>
+		<td>C++</td>
+		<td>icpc</td>
+	</tr>
+</table>
+
+<h2>The Portland Group</h2>
+<p>
+Once again you should load the latest pgi module, this is version 14.4.
+</p>
+<code>
+$ module load pgi/pgi-14.4
+</code>
+
+<p>
+This will provide you with the following compilers in your path
+</p>
+<table>
+	<tr>
+		<th>Language</th>
+		<th>Compiler</th>
+	</tr>
+	<tr>
+		<td>C</td>
+		<td>pgcc</td>
+	</tr>
+	<tr>
+		<td>Fortran</td>
+		<td>pgfortran</td>
+	</tr>
+	<tr>
+		<td>C++</td>
+		<td>pgc++</td>
+	</tr>
+</table>
+
+<h2>GNU Compiler Collection</h2>
+<p>
+You need to load the GNU module, the latest version is 4.9.2
+</p>
+<code>
+$ module load gcc/gcc-4.9.2
+</code>
+
+<p>
+This will provide you with the following compilers in your path
+</p>
+<table>
+	<tr>
+		<th>Language</th>
+		<th>Compiler</th>
+	</tr>
+	<tr>
+		<td>C</td>
+		<td>gcc</td>
+	</tr>
+	<tr>
+		<td>Fortran</td>
+		<td>gfortran</td>
+	</tr>
+	<tr>
+		<td>C++</td>
+		<td>g++</td>
+	</tr>
+</table>
+

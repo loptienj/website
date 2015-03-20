@@ -1,0 +1,81 @@
+<h1>MPI</h1>
+
+<p>
+There are four MPI implementations on Janus. Once again we recommend the Intel
+MPI implementation. No matter which implementation you choose, they all
+provide MPI helper programs:
+</p>
+<table>
+	<tr>
+		<th>Language</th>
+		<th>Compiler</th>
+	</tr>
+	<tr>
+		<td>C</td>
+		<td>mpicc</td>
+	</tr>
+	<tr>
+		<td>Fortran</td>
+		<td>mpifc, mpif90, mpif77</td>
+	</tr>
+	<tr>
+		<td>C++</td>
+		<td>mpicxx</td>
+	</tr>
+</table>
+
+<p>
+The module you load is dependent on the compiler suite you have loaded. For
+example if you have the Intel compiler loaded you should load the MPI
+implementation built with that compiler.
+</p>
+
+<h2>Intel MPI (IMPI)</h2>
+<p>
+You need to load the IMPI module, the latest version is 15.0.1, which
+corresponds to the latest Intel compiler suite.
+</p>
+<code>
+$ module load intel/impi-13.0.0
+</code>
+
+<h2>OpenMPI</h2>
+<p>
+Once again you need to load the OpenMPI module, the latest is version 1.8.4.
+If you are using the Intel suite:
+</p>
+
+<code>
+$ module load intel/intel-15.0.1
+$ module load openmpi/openmpi-1.8.4_intel-13.0.0
+</code>
+
+<p>
+Or if you happen to use the GNU compiler suite:
+</p>
+
+<code>
+$ module load gcc/gcc-4.9.2
+$ module load openmpi/openmpi-1.8.4_gcc-4.9.2
+</code>
+
+<h2>MVAPICH2</h2>
+<p>
+The latest version is 1.9. This implementation has only been built with the
+Intel and GNU compiler suites.
+</p>
+
+<code>
+$ module load mvapich2/mvapich2-1.9_intel-15.0.1
+</code>
+
+<h2>MPICH</h2>
+<p>
+The latest version is 3.1.2. This implementation has only been built with the
+Intel compiler suite. 
+</p>
+
+<code>
+$ module load mpich/mpich-3.1.2_intel-13.0.0
+</code>
+
