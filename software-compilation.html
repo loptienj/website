@@ -1,5 +1,166 @@
 <meta charset="utf-8">
 
+<p>Janus has support for multiple compiler and MPI toolchains, all of
+  which are provided using the <code>module</code> command.
+
+<h2>Compilers</h2>
+
+<p>There are three compiler suites on Janus. Note: if you swap
+  compiler suites you should first <code>unload</code> the previous
+  compiler module before <code>load</code>ing a new module.</p>
+
+<p>We highly recommend using the Intel Compiler Suite when compiling
+  applications to be run on Research Computing resources.</p>
+
+<pre><code>$ module load intel/intel-13.0.0</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>Compiler</th>
+      <th>Module</th>
+      <th>Language</th>
+      <th>Command</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td rowspan="3">Intel Compiler Suite</td>
+      <td rowspan="3"><code>intel/intel-13.0.0</code></td>
+      <td>C</td>
+      <td><code>icc</code></td>
+    </tr>
+    <tr>
+      <td>Fortran</td>
+      <td><code>ifort</code></td>
+    </tr>
+    <tr>
+      <td>C++</td>
+      <td><code>icpc</code></td>
+    </tr>
+
+    <tr>
+      <td rowspan="3">The Portland Group</td>
+      <td rowspan="3">pgi/pgi-14.4</td>
+      <td>C</td>
+      <td><code>pgcc</code></td>
+    </tr>
+    <tr>
+      <td>Fortran</td>
+      <td><code>pgfortran</code></td>
+    </tr>
+    <tr>
+      <td>C++</td>
+      <td><code>pgcc++</code></td>
+    </tr>
+
+    <tr>
+      <td rowspan="4">GNU Compiler Collection</td>
+      <td rowspan="4">gcc/gcc-4.9.1</td>
+      <td>C</td>
+      <td><code>gcc</code></td>
+    </tr>
+    <tr>
+      <td>Fortran</td>
+      <td><code>gfortran</code></td>
+    </tr>
+    <tr>
+      <td>C++</td>
+      <td><code>g++</code></td>
+    </tr>
+    <tr>
+      <td>Java</td>
+      <td><code>gcj</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>MPI</h2>
+
+<p>There are four MPI implementations on Janus. We recommend Intel
+  MPI.</p>
+
+<pre><code>$ module load intel/impi-13.0.0</code></pre>
+
+<p>All MPI implementations available in the Research Computing
+  Environment provide standard wrapper commands.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Wrapper command</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td><code>mpicc</code></td>
+    </tr>
+
+    <tr>
+      <td>Fortran</td>
+      <td><code>mpifc</code>, <code>mpif77</code>, <code>mpif90</code></td>
+    </tr>
+
+    <tr>
+      <td>C++</td>
+      <td><code>mpicxx</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The module you load is dependent on the compiler suite you have
+  loaded. For example if you have the Intel compiler loaded you should
+  load the MPI implementation built with that compiler.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>MPI</th>
+      <th>Compiler</th>
+      <th>Module</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Intel MPI</td>
+      <td rowspan="2">Intel Compiler Suite</td>
+      <td><code>intel/impi-13.0.0</code></td>
+    </tr>
+
+    <tr>
+      <td rowspan="2">OpenMPI</td>
+      <td><code>openmpi/openmpi-1.8.3_intel-13.0.0</code></td>
+    </tr>
+
+    <tr>
+      <td>GNU Compiler Collection</td>
+      <td><code>openmpi/openmpi-1.8.2_gcc-4.9.1</code></td>
+    </tr>
+
+    <tr>
+      <td rowspan="2">MVAPICH2</td>
+      <td>Intel Compiler Suite</td>
+      <td><code>mvapich2/mvapich2-1.9_intel-13.0.0_ib</code></td>
+    </tr>
+
+    <tr>
+      <td>GNU Compiler Collection</td>
+      <td><code>mvapich2/mvapich2-1.9_gcc-4.8.0_ib</code></td>
+    </tr>
+
+    <tr>
+      <td>MPICH</td>
+      <td>Intel Compiler Suite</td>
+      <td><code>mpich/mpich-3.1.2_intel-13.0.0</code></td>
+    </tr>
+  </tbody>
+</table>
+
 <h2 id="janus_compile_nodes">Janus compile nodes</h2>
 
 <p>Dedicated nodes are provided for compiling software meant to run on
