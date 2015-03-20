@@ -351,6 +351,13 @@ the <code><a href="http://slurm.schedmd.com/scontrol.html">scontrol</a></code>
 <div class="tutorial">Tutorial: <a href="examples-and-tutorials/interpreting-scontrol-job-information.html">Interpreting <code>scontrol</code>
 job information</a></div>
 
+<h2>Temporary local scratch storage</h2>
+
+<p>Slurm will create a node-local scratch directory for use by each
+job. The location and characteristics of this directory is
+resource-dependent, but it can be accessed using
+the <code>$SLURM_SCRATCH</code> environment variable.</p>
+
 <h2>Memory limits</h2>
 
 <p>To better balance the allocation of memory to CPUs (for example, to
@@ -396,7 +403,7 @@ number of CPUs and memory that your job will need.</p>
   </tbody>
 </table>
 
-<h2>Interactive jobs</h2>
+<h2 id="interactive_jobs">Interactive jobs</h2>
 
 <p>Interactive jobs are commonly run with the <code>janus-debug</code>
 QOS as part of an interactive programming and debugging workflow. The
