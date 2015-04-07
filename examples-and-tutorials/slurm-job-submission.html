@@ -1,0 +1,153 @@
+<meta charset="utf-8">
+
+<p>This tutorial demonstrates the process of submitting a compute job
+  to the Research Computing batch queueing system, Slurm. The example
+  job should run long enough to allow you to see it running and see
+  the output file get created and updated.</p>
+
+<p>Note: The example job does nothing but waste computer time. Please
+  resist the temptation to run it at a larger scale.</p>
+
+<h2>Prerequisites</h2>
+
+<p>Before you begin, you need
+
+  <ul>
+    <li>an RC account</li>
+    <li>a registered OTP authenticator</li>
+    <li>an SSH client application</li>
+  </ul>
+
+<h2>Log in</h2>
+
+<p>First, log into an RC login node. This step is dependent on your
+  local environment; but in an OS X or Linux environment, you should
+  be able to use the standard OpenSSH command-line client.</p>
+
+<pre><code>$ ssh -l $username login.rc.colorado.edu</code></pre>
+
+<h2>Prepare a job directory</h2>
+
+<p>In your home directory (which is the directory you will be using by
+  default when you first log in) create a subdirectory to contain your
+  test job script and your job's eventual output.</p>
+
+<pre><code>$ mkdir test-job
+$ cd test-job</code></pre>
+
+<p>The <code>cd</code> changes your working directory to the
+  new <code>test-job</code> directory, which you can confirm with
+  the <abbr title="print working directory"><code>pwd</code></abbr>
+  command.</p>
+
+<pre><code>$ pwd
+/home/ralphie/test-job</code></pre>
+
+<h2>Write the job script</h2>
+
+<p>In a batch queueing environment like that at Research Computing,
+  compute tasks are submitted as scripts that will be executed by the
+  queueing system on your behalf. This script often contains embedded
+  metadata about the resources required to complete the job (e.g., the
+  number of compute nodes and cores and for how long you intend to use
+  them).</p>
+
+<p>You can write this script in any text editor. For ease of
+  instruction here, use
+  the <abbr title="concatenate"><code>cat</code></abbr> command to
+  redirect the script text into a file.</p>
+
+<pre><code>$ cat - >test-job.sh &lt;&lt; EOF
+#!/bin/bash
+#SBATCH --job-name test-job
+#SBATCH --time 05:00
+#SBATCH --nodes 1
+#SBATCH --output test-job.out
+
+echo "The job has begun."
+echo "Wait one minute..."
+sleep 60
+echo "Wait a second minute..."
+sleep 60
+echo "Wait a third minute..."
+sleep 60
+echo "Enough waiting: job completed."
+EOF</code></pre>
+
+<p>This script describes a job named "test-job" that will run for no
+  longer than five minutes. The job consists of a single task running
+  on a single node, with output directed to
+  a <code>test-job.out</code> file.</p>
+
+<p>You can use the <abbr title="concatenate"><code>cat</code></abbr>
+  command again to confirm the content of the
+  new <code>test-job.sh</code> script.</p>
+
+<pre><code>$ cat test-job.sh</code></pre>
+
+<h2>Submit the job</h2>
+
+<p>The <code>test-job.sh</code> file is a Bash shell script that
+  serves as the initial executable for the
+  job. The <code>#SBATCH</code> directives at the top of the script
+  inform the scheduler of the job's requirements.</p>
+
+<p>To submit the script as a batch job, first load
+  the <code>slurm</code> module, which will provide access to the Slurm
+  commands.</p>
+
+<pre><code>$ module load slurm</code></pre>
+
+<p>Use the <code>sbatch</code> command to submit the script to
+  Slurm.</p>
+
+<pre><code>$ sbatch --qos janus-debug test-job.sh
+Submitted batch job 56</code></pre>
+
+<p>The <code>--qos</code> argument causes the job to be treated as a
+  "debug" job which will grant it additional priority at the cost of
+  tighter restrictions on its size and length. (<code>--qos</code>
+  could have also been included in an <code>#SBATCH</code> directive
+  in the script itself.)</p>
+
+<p>When Slurm accepts a new job, it responds with the job id (a
+  number) that can be used to identify the specific job in the
+  queue. Referencing this job id when
+  contacting <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>
+  can expedite support.</p>
+
+<h2>Monitor job execution</h2>
+
+<p>Use the <code>squeue</code> command to monitor the status of
+  pending or running jobs.</p>
+
+<pre><code>$ squeue --user $USER
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                56     janus test-job  ralphie  R       0:06      1 node1701</code></pre>
+
+<p>If your job has not already started (i.e., it has a state
+  of <code>PD</code> in stead of <code>R</code>) you can use
+  the <code>--start</code> flag to query the estimated start time for
+  your job.</p>
+
+<pre><code>$ squeue --user $USER --start</code></pre>
+
+<p>Once the job has started, the output it generates will be directed
+  to the <code>test-job.out</code> file referenced in the job
+  script. You can watch the output as it is written using
+  the <code>tail</code> command.</p>
+
+<pre><code>$ tail -F test-job.out</code></pre>
+
+<p>Once the script has finished, the state will transition
+  to <abbr title="completed"><code>C</code></abbr>, and the job will
+  eventually exit the queue.</p>
+
+<h2>Further reading</h2>
+
+<ul>
+  <li><a href="../batch-queueing.html">User Guide: Batch Queueing and
+      Job Scheduling</a></li>
+  <li><a href="serial-jobs.html">Example: Serial Jobs</a></li>
+  <li><a href="parallel-mpi-jobs.html">Example: Parallel MPI Jobs</a></li>
+</ul>
