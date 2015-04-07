@@ -1,5 +1,19 @@
 <meta charset="utf-8">
 
+<style type="text/css">
+  ul
+  {
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    list-style-type: none;
+  }
+
+  li.question {
+    font-weight: bold;
+  }
+</style>
+
 <p>If you have a question that is not answered in the user guide, or
   need general help with a Research Computing system, please contact
   us
@@ -10,144 +24,161 @@
 
 <h2>Remote access and logging in</h2>
 
-<ul>
-  <li>
-    <ul>
-      <li class="question">How do I get an account?</li>
-      <li class="answer">
-        <p>Accounts for CU-Boulder and UC-Denver affiliates can be
-          requested via
-          the <a href="https://portals.rc.colorado.edu/account/request/">account
-            request portal</a>.  NCAR affiliates must apply for accounts
-          through <a href="http://www2.cisl.ucar.edu">CISL</a>.</p>
-        <p>External users must first obtain
-          a <a href="http://www.colorado.edu/oit/identikey-accounts/sponsored">sponsored
-            affiliate account</a> with CU.</p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <ul>
-      <li class="question">How do I register a one-time password (OTP)
-        authenticator?</li>
-      <li class="answer">Register your authenticator
-        at <a href="https://otp.colorado.edu">otp.colorado.edu</a>. The
-        process is documented in
-        the <a href="remote-access.html#otp">user guide</a>.</li>
-    </ul>
-  </li>
-  <li>
-    <ul>
-      <li class="question">How do I log into my account?</li>
-      <li class="answer">Computational access to Research Computing
-        systems is primarily provided <a href="remote-access.html">via
-          ssh</a>. Access to storage resources is primarily provided
-        via <a href="file-transfer.html">SSH and Globus</a>.</li>
-    </ul>
-  </li>
-</ul>
+<h3>How do I get an account?</h3>
+
+<p>Accounts for CU-Boulder and UC-Denver affiliates can be requested
+  via
+  the <a href="https://portals.rc.colorado.edu/account/request/">account
+  request portal</a>.  NCAR affiliates must apply for accounts
+  through <a href="http://www2.cisl.ucar.edu">CISL</a>.</p>
+
+<p>External users must first obtain
+  a <a href="http://www.colorado.edu/oit/identikey-accounts/sponsored">sponsored
+  affiliate account</a> with CU.</p>
+
+<h3>How do I register a one-time password (OTP) authenticator?</h3>
+
+<p>Register your authenticator
+  at <a href="https://otp.colorado.edu">otp.colorado.edu</a>. The
+  process is documented in the <a href="remote-access.html#otp">user
+  guide</a>.</p>
+
+<h3>How do I log into my account?</h3>
+
+<p>Computational access to Research Computing systems is primarily
+  provided <a href="remote-access.html">via ssh</a>. Access to storage
+  resources is primarily provided via <a href="file-transfer.html">SSH
+  and Globus</a>.</[>
 
 <h2>Allocations</h2>
 
-<ul>
-  <li>
-    <ul>
-      <li class="question">How do I get an allocation?</li>
-      <li class="answer">All new accounts are eligible for a start-up
-        allocation upon request. Additional allocations are granted upon
-        request with sufficient justification. More information is
-        available in the <a href="allocations.html">user guide</a>.</li>
-    </ul>
-  </li>
-</ul>
+<h3>How do I get an allocation?</h3>
+
+<p>All new accounts are eligible for a start-up allocation upon
+  request. Additional allocations are granted upon request with
+  sufficient justification. More information is available in
+  the <a href="allocations.html">user guide</a>.</p>
 
 <h2>Batch queueing and job scheduling</h2>
 
-<ul>
-  <li>
-    <ul>
-      <li class="question">What queues are available?</li>
-      <li class="answer">
-        <p>Research Computing uses Slurm, which uses a
-          single job queue. In stead of queues, Slurm uses resource
-          partitions and quality-of-service (QOS) values to set limits
-          and priorities and to assign jobs to resources.</p>
-        <p>More information on selecting a QOS value for your job is
-          available in the <a href="batch-queueing.html#qos">user
-          guide.</p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <ul>
-      <li class="question">How can I run multiple serial jobs in parallel?</li>
-      <li class="answer">Research Computing provides a
-        simple <a href="examples-and-tutorials/load-balancer.html">load-balancer</a>
-        that can run multiple serial processes as tasks in a larger
-        job.</li>
-    </ul>
-  </li>
+<h3>What queues are available?</h3>
 
-  <li>
-    <ul>
-      <li class="question">When will my job start running?</li>
-      <li class="answer">
-        <p>Slurm can provide an estimate of when your jobs will start, along
-          with what resources it expects to dispatch your jobs to.</p>
-        <pre><code>$ squeue --user=$USER --start</code></pre>
-        <p>Start times vary, and are largely dependent
-          on the existing job load. A small debug job should start
-          within a few minutes. A production 96-core job might take a
-          few hours to start. A large, long job may spend several days
-          or a week in the queue before starting.</p>
-        <p>More information is available in
-          the <a href="batch-queueing.html#monitoring">user
-          guide</a>.</p>
-      </li>
-    </ul>
-  </li>
-</ul>
+<p>Research Computing uses Slurm, which uses a single job queue. In
+  stead of queues, Slurm uses resource partitions and
+  quality-of-service (QOS) values to set limits and priorities and to
+  assign jobs to resources.</p>
+
+<p>More information on selecting a QOS value for your job is available
+  in the <a href="batch-queueing.html#qos">user guide</a>.</p>
+
+<h3>How can I run multiple serial jobs in parallel?</h3>
+
+<p>Research Computing provides a
+  simple <a href="examples-and-tutorials/load-balancer.html">load-balancer</a>
+  that can run multiple serial processes as tasks in a larger
+  job.</p>
+
+<h3>When will my job start running?</h3>
+
+<p>Slurm can provide an estimate of when your jobs will start, along
+  with what resources it expects to dispatch your jobs to.</p>
+
+<pre><code>$ squeue --user=$USER --start</code></pre>
+
+<p>Start times vary, and are largely dependent on the existing job
+  load. A small debug job should start within a few minutes. A
+  production 96-core job might take a few hours to start. A large,
+  long job may spend several days or a week in the queue before
+  starting.</p>
+
+<p>More information is available in
+  the <a href="batch-queueing.html#monitoring">user guide</a>.</p>
+
+<h2>Storage</h2>
+
+<h3>How long are backups saved in the PetaLibrary?</h3>
+
+<p>The PetaLibrary does not offer a contentional backup service.
+  Storage options with "replication" or "second copy on tape" are
+  designed to protect against a media failure, not accidental
+  deletion. Changes to files on primary storage propagate
+  automatically to the replicated copy, and if a file is deleted from
+  the main storage it should not be expected to remain on the copy.</p>
+
+<h3>Can I mount my PetaLibrary project directory to my desktop computer?</h3>
+
+<p>We do not currently support NFS or CIFS exports from the
+  PetaLibrary to the campus network, but similar (unsupported) access
+  could be provided
+  using <a href="http://fuse.sourceforge.net/sshfs.html">sshfs</a>.</p>
+
+<h3>How long does it take to access a file in the PetaLibrary Archive?</h3>
+
+<p>Files that have been migrated to tape can takes up to a minute to
+  load the appropriate tape cartridge, plus another minute or two to
+  advance the tape to the spot where the file is located. Data is then
+  read from the tape at up to 160 MB/s. If all tape drives are in use
+  by other file operations, processes, then the data recall will wait
+  until a tape drive becomes available.</p>
+
+<h3>What tools and processes are available on the PetaLibrary for data and metadata management, curation, and information lifecycle management?</h3>
+
+<p>The PetaLibrary is designed primarily as a storage facility,
+  leaving management of the stored data to the project
+  owner. However, <a href="https://data.colorado.edu/">CU Research
+  Data Services</a> can offer assistance with many aspects of the data
+  management process.</p>
+
+<h3>Can I back up my PC to the PetaLibrary?</h3>
+
+<p>The PetaLibrary has been funded to store research data, not for
+  general-purpose storage or
+  backups. The <a href="http://www.colorado.edu/oit/services/file-transfer-storage-infrastructure/ucb-files-storage">UCB
+  Files</a> storage service is an alternative for general file
+  storage.</p>
+
+<h3>Why shouldn’t I use rsync to synchronize my local data with
+  PetaLibrary Archive?</h3>
+
+<p>rsync synchronizes data by comparing file content in addition to
+  file metadata. In an HSM environment like PetaLibrary Archive, these
+  content comparisons require that all files be recalled from tape to
+  disk, making rsync an inefficient mechanism for synchronizing
+  files.</p>
+
+<h3>Why are my PetaLibrary transfers slow?</h3>
+
+<p>The PetaLibrary has a 10 Gb/s connection to the CU Science Network,
+  allowing transfers at speeds up to 800 MB/s; but slower networks in
+  your department or institution are likely to be the greatest
+  limiting factor when moving data in and out of the PetaLibrary. If
+  you have confirmed with your local network administration that you
+  have a 10 Gb/s or faster connection between yourself and the
+  PetaLibrary, contact us
+  at <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>
+  for help troubleshooting the connection.</p>
 
 <h2>Software</h2>
 
-<ul>
-  <li>
-    <ul>
-      <li class="question">Will you install software for me?</li>
-      <li class="answer">We prefer that software is installed first by
-        a user that will use it. For more information is available in
-        the <a href="software.html">user guide</a>.</li>
-    </ul>
-  </li>
-  <li>
-    <ul>
-      <li class="question">How can I profile my code?</li>
-      <li class="answer">We recommend using
-        the <a href="http://hpctoolkit.org">HPCToolkit<a/>.</li>
-    </ul>
-  </li>
-  <li>
-    <ul>
-      <li class="question">How do I access LAPACK and BLAS?</li>
-      <li class="answer">
-        <p>We recommend using Intel's Math Kernel Library (MKL),
-          especially if you are compiling with the Intel Compiler
-          Suite.</p>
+<h3>Will you install software for me?</h3>
 
-        <pre><code>$ module load intel/intel-13.0.0</code></pre>
+<p>We prefer that software is installed first by a user that will use
+  it. For more information is available in
+  the <a href="software.html">user guide</a>.</p>
 
-        <p>If you prefer an open source implementation, we provide the
-          GNU Scientific Library.</p>
+<h3>How can I profile my code?</h3>
 
-        <pre><code>$ module load gsl/gsl-1.15_gcc-4.7.2</code></pre>
-      </li>
-    </ul>
-  </li>
-</ul>
+<p>We recommend using
+  the <a href="http://hpctoolkit.org">HPCToolkit<a/>.</p>
 
-  <li>
-    <ul>
-      <li class="question"></li>
-      <li class="answer"></li>
-    </ul>
-  </li>
+<h3>How do I access LAPACK and BLAS?</h3>
+
+<p>We recommend using Intel's Math Kernel Library (MKL), especially if
+  you are compiling with the Intel Compiler Suite.</p>
+
+<pre><code>$ module load intel/intel-13.0.0</code></pre>
+
+<p>If you prefer an open source implementation, we provide the GNU
+  Scientific Library.</p>
+
+<pre><code>$ module load gsl/gsl-1.15_gcc-4.7.2</code></pre>

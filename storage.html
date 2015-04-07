@@ -115,7 +115,7 @@
 
 <pre><code>$ find /rc_scratch/$USER/ -type f -ctime +90</code></pre>
 
-<h2>High-performance global scratch</h2>
+<h2 id="janus-scratch">Janus scratch</h2>
 
 <p>A central high-performance scratch Lustre filesystem is available
   at <code>/lustre/janus_scratch/$USER/</code>.</p>
@@ -167,3 +167,85 @@
 
 <div class="tutorial">Tutorial: <a href="examples-and-tutorials/parallel-io-on-janus-lustre.html">Parallel
     IO on Janus Lustre</a></div>
+
+<h2>The PetaLibrary</h2>
+
+<p>The PetaLibrary is a National Science Foundation-subsidized service
+  for the storage, archival, and sharing of research data, housed in
+  the Space Sciences data center at CU-Boulder. It is available for a
+  modest fee to any US-based researcher affiliated with the University
+  of Colorado Boulder.</p>
+
+<p>The PetaLibrary stores and archives research data, broadly defined
+  as the scholarly output from researchers at the University of
+  Colorado, as well as digital archives and special collections. The
+  PetaLibrary is not an appropriate storage target for administrative
+  data, data that is copyrighted by someone other than the project
+  owner or members, or sensitive data (e.g., HIPAA, FERPA, ITAR, or
+  classified).</p>
+
+<p>PetaLibrary storage is allocated to discrete projects, analogous to
+  an allocation of computational services units to a computational
+  allocation. A PetaLibrary project is purchased and overseen by a
+  Principal Investigator (PI), but may be made accessible to multiple
+  additional members. A PI may have multiple PetaLibrary projects,
+  each with a different storage allocation and list of authoized
+  members. Each project may also have a Point of Contact (POC) person
+  who is allowed to request changes to the project on behalf of the
+  PI.</p>
+
+<p>Each project is presented as a unique path on a posix-compliant
+  filesystem.</p>
+
+<p>The PetaLibrary system provides two primary services: PetaLibrary
+  Active and PetaLibrary Archive.</p>
+
+<p>The PetaLibrary has a 10 Gb/s connection to the CU Science Network,
+  allowing transfers at speeds up to 800 MB/s.</p>
+
+<h3>PetaLibrary Active</h3>
+
+<p>The PetaLibrary Active storage service is mounted
+  at <code>/work/</code> on all Research Computing computational
+  systems. This storage may be used by compute workloads, but it is
+  not designed to be performant under I/O-intensive applications or
+  parallel writes. (Parallel or concurrent IO should
+  target <a href="#janus-scratch">Janus scratch</a> in stead.</p>
+
+<h3>PetaLibrary Archive and hierarchical storage management (HSM)</h3>
+
+<p>PetaLibrary Archive is a higherarchical storage system that
+  dynamically and simultaneously manages data on both disk and tape
+  storage systems while presenting all data as part of a single,
+  unified filesystem namespace. The process by which files are
+  automatically migrated between disk and tape stoarge is called
+  "hierarchical storage management" (HSM). Normally, recently-used or
+  small files are kept on low-latency disk storage, while older or
+  larger files are migrated to bulk tape storage. This provides good
+  performance when accessing frequently-used data while remaining
+  cost-effective for storing large quantities of archive data.</p>
+
+<p>PetaLibrary Archive provides an optional "additional copy on tape"
+  to protect against tape media failure. (All disk storage is
+  protected from media failure by parity in a disk array.)</p>
+
+<h3>Sharing data</h3>
+
+<p>Data in the PetaLibrary can be shared with collaborators who do not
+  possess a CU Identikey or RC account via
+  the <a href="https://www.globus.org/data-sharing">Globus sharing
+  service</a>. To enable sharing, a member of the PetaLibrary project
+  must authenticate to the colorado#gridftp Globus endpoint and
+  configure a "Globus shared endpoint" that references the intended
+  PetaLibrary storage area. You can then grant access (read and/or
+  write) to the shared endpoint to anyone with a Globus account.</p>
+
+<p>A Globus Plus subscription is required to use the Globus sharing
+  service. One Globus Plus subscription is provided with each
+  PetaLibrary project.</p>
+
+<p>To comply with NSF requirements, external collaborators should have
+  a US-based affiliation.</p>
+
+<p>For more information, contact us
+  at <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.</p>
