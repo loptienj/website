@@ -53,12 +53,10 @@ $ cd test-job</code></pre>
   them).</p>
 
 <p>You can write this script in any text editor. For ease of
-  instruction here, use
-  the <abbr title="concatenate"><code>cat</code></abbr> command to
-  redirect the script text into a file.</p>
+  instruction here, use the <code>echo</code> command to redirect the
+  pasted script text into a file.</p>
 
-<pre><code>$ cat - >test-job.sh &lt;&lt; EOF
-#!/bin/bash
+<pre><code>$ echo >test-job.sh '#!/bin/bash
 #SBATCH --job-name test-job
 #SBATCH --time 05:00
 #SBATCH --nodes 1
@@ -71,7 +69,7 @@ echo "Wait a second minute..."
 sleep 60
 echo "Wait a third minute..."
 sleep 60
-echo "Enough waiting: job completed."
+echo "Enough waiting: job completed."'
 EOF</code></pre>
 
 <p>This script describes a job named "test-job" that will run for no
