@@ -1,0 +1,59 @@
+<meta charset="utf-8">
+
+<p>Job arrays run multiple instances of the the same base job. Each
+  instance is assigned a unique index to the environment
+  variable <code>$SLURM_ARRAY_TASK_ID</code>.</p>
+
+<p>This example job array uses the <code>sha1sum</code> command to
+  compute a hash for each of a set of files.</p>
+
+<h2>Input dataset</h2>
+
+<p>Ordinarily you have an input dataset, perhaps one file per intended
+  job index. The example input dataset here is simply a set of
+  randomly-generated, one-megabyte files.</p>
+
+<pre><code>for i in $(seq 0 9)
+do
+  dd if=/dev/urandom of=input-data-${i} bs=1m count=1
+done</code></pre>
+
+<h2>Job script</h2>
+
+<p><code>sha1sum-array.sh</code> is a Slurm job that expects to run as
+  an index of a Slurm job array. It writes the calulated SHA-1 hash to
+  the <code>--output</code> file as well as to a dedicated hash data
+  file.</p>
+
+<pre><code>#!/bin/bash
+
+#SBATCH --job-name sha1sum-array
+#SBATCH --time 5:00
+#SBATCH --nodes 1
+#SBATCH --output example-array-%a.out
+
+if [ -z "${SLURM_ARRAY_TASK_ID}" ]
+then
+    echo &gt;&amp; "Error: not running as a job array."
+    exit 1
+fi
+
+echo "Array index: ${SLURM_ARRAY_TASK_ID}"
+
+data_file="input-data-${SLURM_ARRAY_TASK_ID}"
+sha1sum $data_file | tee "${data_file}.sha1"</code></pre>
+
+<h2>Job submission</h2>
+
+<p>The example input dataset consists of 10 input files intended to be
+  processed by 10 job array indices. The <code>janus-debug</code> QOS
+  is restricted to four queued jobs per user, though, so we can start
+  by running the first four indices as debug jobs.</p>
+
+<pre><code>$ sbatch --qos janus-debug --array 0-3 sha1sum-array.sh</code></pre>
+
+<p>If output from those job indices is correct, you can follow-up by
+  submitting the rest of the indices with the
+  regular <code>janus</code> QOS.</p>
+
+<pre><code>$ sbatch --qos janus --array 4-9 sha1sum-array.sh</code></pre>
