@@ -1,0 +1,83 @@
+<meta charset="utf-8">
+
+<p>The OpenSSH client has a number of configuration
+  options. Specifying these options in your <code>~/.ssh/config</code>
+  file can simplify the process of accessign remote servers that you
+  use frequently.</p>
+
+<p>Configuration options in <code>~/.ssh.config</code> can be thought
+  of as being grouped into logical stanzas with a <code>Host</code>
+  pattern as its header. (This is not quite true; but it's a usable
+  enough model for most cases.)</p>
+
+<h2><code>HostName</code></h2>
+
+<p>The first thing you might want to do is specify host aliases for a
+  server that you access fequently. You might have been doing this
+  already with a shell script, shell alias, or some other mechanism;
+  but it's easy to do it with OpenSSH itself, and it has the benefit
+  of initializing your configuration stanza, as well.</p>
+
+<pre><code>Host login curc rc login.rc.colorado.edu
+HostName login.rc.colorado.edu</code></pre>
+
+<p>With this simple stanza defined in <code>~/.ssh.config</code>, you
+  can now ssh into a Research Computing login node
+  (<code>login.rc.colorado.edu</code>) with any of the defined
+  aliases.</p>
+
+<pre><code>$ ssh login
+$ ssh curc
+$ ssh rc
+$ ssh login.rc.colorado.edu</code></pre>
+
+<h2><code>User</code></h2>
+
+<p>If you're lucky enough to have the same username on all the local
+  and remote systems you use, then this feature won't mean much to
+  you; but if you're like most people, you have one username on your
+  office workstation, a different username on your home workstation,
+  and quite possibly a different username at each remote system you
+  access.</p>
+
+<p>Rather than having to remember and specify your username each time
+  you log into a remote system (with <code>-l</code>
+  or <code>$user@$host</code>), you can record the correct username
+  for each remote host in <code>~/.ssh/config</code>, and the defined
+  username will be used by default when accessing that
+  host. (Otherwise, OpenSSH will attempt to use your client-side
+  username by default.)</p>
+
+<pre><code>Host login curc rc login.rc.colorado.edu
+HostName login.rc.colorado.edu
+User joan5896</code></pre>
+
+<h2><code>ForwardX11</code></h2>
+
+<p>Do you frequently use X11 forwarding to run graphical utilities on
+  a Research Computing login node? If so, you probably usually
+  specify <code>-X</code> or <code>-Y</code> when logging in. You can,
+  however, configure OpenSSH to forward X11 connections
+  automatically.</p>
+
+<pre><code>Host login curc rc login.rc.colorado.edu
+HostName login.rc.colorado.edu
+User joan5896
+ForwardX11 yes</code></pre>
+
+<h2>More options</h2>
+
+<p>Virtually any option that can be specified during an ssh login can
+  be added to <code>~/.ssh/config</code>. For a full list of the
+  available options, see
+  the <a href="http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/ssh_config.5?query=ssh%5fconfig&sec=5"><code>ssh_config(5)</code><a/>
+  manpage.</p>
+
+<pre><code>$ man 5 ssh_config</code></pre>
+
+<p>Of particular additional note are the <code>ControlMaster</code>
+  and <code>ControlPath</code> options, which can be used to reduce
+  the burden of using a one-time password (OTP) authenticator; but
+  these options are covered in
+  a <a href="reduced-otp-password-entries.html">separate
+  tutorial</a>.</p>
