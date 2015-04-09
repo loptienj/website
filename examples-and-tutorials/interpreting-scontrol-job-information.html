@@ -1,9 +1,9 @@
 <meta charset="utf-8">
 
 <p>Slurm's <a href="http://slurm.schedmd.com/scontrol.html"><code>scontrol</code></a>
-command can be used to inspect the status of a job in the queue; but
-this output can be a bit verbose, and intimidating if you don't
-already know how to read it.<p>
+  command can be used to inspect the status of a job in the queue; but
+  this output can be a bit verbose, and intimidating if you don't
+  already know how to read it.<p>
 
 <pre><code>$ scontrol show job 6286
 JobId=6286 Name=test_job
@@ -36,84 +36,86 @@ JobId=6286 Name=test_job
 <dl>
   <dt><code>JobId=6286</code></dt>
 
-  <dd>Each job that is submitted to Slurm is assigned a unique numerical
-    ID. This ID appears in the output of several Slurm commands, and can
-    be used to refer to the job for modification or cancellation.</dd>
+  <dd>Each job that is submitted to Slurm is assigned a unique
+    numerical ID. This ID appears in the output of several Slurm
+    commands, and can be used to refer to the job for modification or
+    cancellation.</dd>
 
   <dt><code>Name=test_job</code></dt>
 
   <dd>When submitting your job, you can define a descriptive name
-    using <code>--job-name</code> (or <code>-J</code>). Otherwise, the job
-    name will be the name of the script that was submitted.</dd>
+    using <code>--job-name</code> (or <code>-J</code>). Otherwise, the
+    job name will be the name of the script that was submitted.</dd>
 
   <dt><code>UserId=ralphie(00001)</code></dt>
 
   <dt><code>GroupId=ralphiepgrp(00001)</code></dt>
 
-  <dd>Each job runs using the user credentials of the user process that
-    submitted it. These are the same credentials indicated by
+  <dd>Each job runs using the user credentials of the user process
+    that submitted it. These are the same credentials indicated by
     the <code>id</code> command.</dd>
 
   <dt><code>Priority=7</code></dt>
 
-  <dd>The current scheduling priorty for the job, calculated based on the
-    current scheduling policy for the cluster. Jobs with a higher priority
-    are more likely to start sooner.</dd>
+  <dd>The current scheduling priorty for the job, calculated based on
+    the current scheduling policy for the cluster. Jobs with a higher
+    priority are more likely to start sooner.</dd>
 
   <dt><code>Nice=0</code></dt>
 
-  <dd>The nice value is a subtractive adjustment to a job's priority. You
-    can voluntarialy reduce your job priority using
+  <dd>The nice value is a subtractive adjustment to a job's
+    priority. You can voluntarialy reduce your job priority using
     the <code>--nice</code> argument.</dd>
 
   <dt><code>Account=ralphie</code></dt>
 
-  <dd>Access to Research Computing compute resources is moderated by the
-    use of core-hour allocations to compute accounts. This account is
-    specified using the <code>--account</code> (or <code>-A</code>)
+  <dd>Access to Research Computing compute resources is moderated by
+    the use of core-hour allocations to compute accounts. This account
+    is specified using the <code>--account</code> (or <code>-A</code>)
     argument.</dd>
 
   <dt><code>QOS=normal</code></dt>
 
   <dd>Slurm uses a "quality of service" system to control job
-    properties. The Research Computing environment also uses QOS values to
-    map jobs to node types.</dd>
+    properties. The Research Computing environment also uses QOS
+    values to map jobs to node types.</dd>
 
   <dd>The QOS is selected during job submission using
     the <code>--qos</code> argument. More information is available on
     the <a href="../batch-queueing.html">Batch queueing and job
-      scheduling</a> page.</dd>
+    scheduling</a> page.</dd>
 
   <dt><code>JobState=RUNNING</code></dt>
 
-  <dd>Slurm jobs pass through a number of different states. Common states
-    are PENDING, RUNNING, and COMPLETED.</dd>
+  <dd>Slurm jobs pass through a number of different states. Common
+    states are PENDING, RUNNING, and COMPLETED.</dd>
 
   <dt><code>Reason=None</code></dt>
 
-  <dd>For PENDING jobs, an explanation for why the job is not yet RUNNING
-    is listed here.</dd>
+  <dd>For PENDING jobs, an explanation for why the job is not yet
+    RUNNING is listed here.</dd>
 
   <dt><code>Dependency=(null)</code></dt>
 
   <dd>If the job depends on another job (as defined
-    by <code>--dependency</code> or <code>-d</code>, that dependency will
-    be indicated here.</dd>
+    by <code>--dependency</code> or <code>-d</code>, that dependency
+    will be indicated here.</dd>
 
   <dt><code>Requeue=1</code></dt>
 
   <dd>If a job fails due to certain scheduler conditions, Slurm may
-    re-queue the job to run at a later time. Re-queueing can be disabled
-    using <code>--no-requeue</code>.</dd>
+    re-queue the job to run at a later time. Re-queueing can be
+    disabled using <code>--no-requeue</code>.</dd>
 
   <dt><code>Restarts=0</code></dt>
 
-  <dd>If the job has been restarted (see <code>Requeue</code> above) the
-    number of restarts will be reflected here.</dd>
+  <dd>If the job has been restarted (see <code>Requeue</code> above)
+    the number of restarts will be reflected here.</dd>
 
   <dt><code>BatchFlag=1</code></dt>
 
-  <dd>Whether or not the job was submitted using <code>sbatch</code>.</dd>
+  <dd>Whether or not the job was submitted
+  using <code>sbatch</code>.</dd>
 
   <dt><code>ExitCode=0:0</code></dt>
 
@@ -129,7 +131,8 @@ JobId=6286 Name=test_job
   <dd>The time limit for the job, specified by <code>--time</code>
     or <code>-t</code>.</dd>
 
-  <dt style="text-decoration: line-through"><code>TimeMin=N/A</code></dt>
+  <dt style="text-decoration:
+  line-through"><code>TimeMin=N/A</code></dt>
 
   <dt><code>SubmitTime=2014-05-29T10:31:43</code></dt>
 
@@ -137,11 +140,12 @@ JobId=6286 Name=test_job
 
   <dt><code>EligibleTime=2014-05-29T10:31:43</code></dt>
 
-  <dd>When the job became eligle to run. Examples of reasons a job might
-    be ineligible to run include being bound to a reservation that has not
-    started; exceeding the maximum number of jobs allowed to be run by a
-    user, group, or account; having an unmet job dependency; or specifying
-    a later start time using <code>--begin</code>.</dd>
+  <dd>When the job became eligle to run. Examples of reasons a job
+    might be ineligible to run include being bound to a reservation
+    that has not started; exceeding the maximum number of jobs allowed
+    to be run by a user, group, or account; having an unmet job
+    dependency; or specifying a later start time
+    using <code>--begin</code>.</dd>
 
   <dt><code>StartTime=2014-05-29T10:31:47</code></dt>
 
@@ -151,19 +155,20 @@ JobId=6286 Name=test_job
 
   <dd>For a RUNNING job, this is the predicted time that the job will
     end, based on the time limit specified by <code>--time</code>
-    or <code>-t</code>. For a COMPLETED or CANCELLED job, this is the time
-    that the job ended.</dd>
+    or <code>-t</code>. For a COMPLETED or CANCELLED job, this is the
+    time that the job ended.</dd>
 
   <dt><code>PreemptTime=None</code></dt>
 
   <dd>If the scheduler preempts a running job to allow the start of
-    another job, the time that the job was last preempted will be recorded
-    here.</dd>
+    another job, the time that the job was last preempted will be
+    recorded here.</dd>
 
   <dt><code>SuspendTime=None</code></dt>
 
-  <dd>If a job is suspended (e.g., using <code>scontrol suspend</code>)
-    the time that it was last suspended will be recorded here.</dd>
+  <dd>If a job is suspended (e.g., using <code>scontrol
+    suspend</code>) the time that it was last suspended will be
+    recorded here.</dd>
 
   <dt><code>SecsPreSuspend=0</code></dt>
 
@@ -171,11 +176,11 @@ JobId=6286 Name=test_job
 
   <dt><code>Partition=janus</code></dt>
 
-  <dd>The partition of compute resources targeted by the job. While the
-    partition can be manually set using <code>--partition</code>
-    or <code>-p</code>, the Research Computing environment automatically
-    selects the correct partition when the user specifies the desired QOS
-    using <code>--qos</code>.</dd>
+  <dd>The partition of compute resources targeted by the job. While
+    the partition can be manually set using <code>--partition</code>
+    or <code>-p</code>, the Research Computing environment
+    automatically selects the correct partition when the user
+    specifies the desired QOS using <code>--qos</code>.</dd>
 
   <dt><code>AllocNode:Sid=login01:8396</code></dt>
 
@@ -184,13 +189,13 @@ JobId=6286 Name=test_job
 
   <dt><code>ReqNodeList=(null)</code></dt>
 
-  <dd>The list of nodes explicitly requested by the job, as specified by
-    the <code>--nodelist</code> or <code>-w</code> argument.</dd>
+  <dd>The list of nodes explicitly requested by the job, as specified
+    by the <code>--nodelist</code> or <code>-w</code> argument.</dd>
 
   <dt><code>ExcNodeList=(null)</code></dt>
 
-  <dd>The list of nodes explicitly excluded by the job, as specified by
-    the <code>--exclude</code> or <code>-x</code> argument.</dd>
+  <dd>The list of nodes explicitly excluded by the job, as specified
+    by the <code>--exclude</code> or <code>-x</code> argument.</dd>
 
   <dt><code>NodeList=node[1342-1345,1362-1367]</code></dt>
 
@@ -209,121 +214,123 @@ JobId=6286 Name=test_job
   <dt><code>NumCPUs=120</code></dt>
 
   <dd>The number of CPUs requested by the job, calculated by the nodes
-    requested, the number of tasks requested, and the allocation of CPUs
-    to tasks.<code></dd>
+    requested, the number of tasks requested, and the allocation of
+    CPUs to tasks.</dd>
 
   <dt><code>CPUs/Task=1</code></dt>
 
-  The number of CPU cores assigned to task. May be specified using, for
-  example, <code>--ntasks</code> (<code>-n</code>)
-  and <code>--cpus-per-task</code> (<code>-c</code>).</dd>
+  <dd>The number of CPU cores assigned to task. May be specified
+    using, for example, <code>--ntasks</code> (<code>-n</code>)
+    and <code>--cpus-per-task</code> (<code>-c</code>).</dd>
 
-<dt><code>ReqB:S:C:T=0:0:*:*</code></dt>
+  <dt><code>ReqB:S:C:T=0:0:*:*</code></dt>
 
-<dd>An undocumented breakout of the node hardware.</dd>
+  <dd>An undocumented breakout of the node hardware.</dd>
 
-<dt><code>Socks/Node=*</code></dt>
+  <dt><code>Socks/Node=*</code></dt>
 
-<dd>Reflects the specific allocation of CPU sockets per node (where a
-  single socketed CPU may contain many cores). This can be specified
-  using <code>--sockets-per-node</code>, implied
-  by <code>--cores-per-socket</code>, or affected by other node
-  specification arguments.</dd>
+  <dd>Reflects the specific allocation of CPU sockets per node (where
+    a single socketed CPU may contain many cores). This can be
+    specified using <code>--sockets-per-node</code>, implied
+    by <code>--cores-per-socket</code>, or affected by other node
+    specification arguments.</dd>
 
-<dt><code>NtasksPerN:B:S:C=12:0:*:*</code></dt>
+  <dt><code>NtasksPerN:B:S:C=12:0:*:*</code></dt>
 
-<dd>An undocumented breakout of the tasks pre node.</dd>
+  <dd>An undocumented breakout of the tasks pre node.</dd>
 
-<dt><code>CoreSpec=0</code></dt>
+  <dt><code>CoreSpec=0</code></dt>
 
-<dd>Unknown.</dd>
+  <dd>Unknown.</dd>
 
-<dt><code>MinCPUsNode=12</code></dt>
+  <dt><code>MinCPUsNode=12</code></dt>
 
-<dd>The minimum number of CPU cores per node requested by the
-  job. Useful for jobs that can run on a flexible number of
-  processors, as specified by <code>--mincpus</code>.</dd>
+  <dd>The minimum number of CPU cores per node requested by the
+    job. Useful for jobs that can run on a flexible number of
+    processors, as specified by <code>--mincpus</code>.</dd>
 
-<dt><code>MinMemoryCPU=1700M</code></dt>
+  <dt><code>MinMemoryCPU=1700M</code></dt>
 
-<dd>The minimum amount of memory required per CPU. Set automatically by
-  the scheduler, but explicitly configurable
-  with <code>--mem-per-cpu</code>.</dd>
+  <dd>The minimum amount of memory required per CPU. Set automatically
+    by the scheduler, but explicitly configurable
+    with <code>--mem-per-cpu</code>.</dd>
 
-<dt><code>MinTmpDiskNode=0</code></dt>
+  <dt><code>MinTmpDiskNode=0</code></dt>
 
-<dd>The amount of temporary disk space required per node, as requested
-  by <code>--tmp</code>. Note that Janus nodes do not have local disks
-  attached, and it is expected that most file IO will take place in the
-  shared parallel filesystem.</dd>
+  <dd>The amount of temporary disk space required per node, as
+    requested by <code>--tmp</code>. Note that Janus nodes do not have
+    local disks attached, and it is expected that most file IO will
+    take place in the shared parallel filesystem.</dd>
 
-<dt><code>Features=(null)</code></dt>
+  <dt><code>Features=(null)</code></dt>
 
-<dd>Node features required by the job, as specified
-  by <code>--constraint</code> or <code>-C</code>. Node features are not
-  currently used in the Research Computing environment.</dd>
+  <dd>Node features required by the job, as specified
+    by <code>--constraint</code> or <code>-C</code>. Node features are
+    not currently used in the Research Computing environment.</dd>
 
-<dt><code>Gres=(null)</code></dt>
+  <dt><code>Gres=(null)</code></dt>
 
-<dd>Generic consumable features required by the job, as specified
-  by <code>--gres</code>. Generic resources are not currently used in
-  the Research Computing environment.</dd>
+  <dd>Generic consumable features required by the job, as specified
+    by <code>--gres</code>. Generic resources are not currently used
+    in the Research Computing environment.</dd>
 
-<dt><code>Reservation=(null)</code></dt>
+  <dt><code>Reservation=(null)</code></dt>
 
-<dd>If the job is running as part of a resource reservation
-  (using <code>--reservation</code>), that reservation will be
-  identified here.</dd>
+  <dd>If the job is running as part of a resource reservation
+    (using <code>--reservation</code>), that reservation will be
+    identified here.</dd>
 
-<dt><code>Shared=0</code></dt>
+  <dt><code>Shared=0</code></dt>
 
-<dd>Whether or not the job can share resources with other running jobs,
-  as specified with <code>--share</code> or <code>-s</code>.</dd>
+  <dd>Whether or not the job can share resources with other running
+    jobs, as specified with <code>--share</code>
+    or <code>-s</code>.</dd>
 
-<dt><code>Contiguous=0</code></dt>
+  <dt><code>Contiguous=0</code></dt>
 
-<dd>Whether or not the nodes allocated for the ode must be contiguous,
-  as specified by <code>--contiguous</code>.</dd>
+  <dd>Whether or not the nodes allocated for the ode must be
+    contiguous, as specified by <code>--contiguous</code>.</dd>
 
-<dt><code>Licenses=(null)</code></dt>
+  <dt><code>Licenses=(null)</code></dt>
 
-<dd>List of licenses requested by the job, as specified
-  by <code>--licenses</code> or <code>-L</code>. Note that Slurm is not
-  used for license managment in the Research Computing environment.</dd>
+  <dd>List of licenses requested by the job, as specified
+    by <code>--licenses</code> or <code>-L</code>. Note that Slurm is
+    not used for license managment in the Research Computing
+    environment.</dd>
 
-<dt><code>Network=(null)</code></dt>
+  <dt><code>Network=(null)</code></dt>
 
-<dd>System-specific network specification information. Not applicable
-  to the Research Computing environment.</dd>
+  <dd>System-specific network specification information. Not
+    applicable to the Research Computing environment.</dd>
 
-<dt><code>Command=/home/ralphie/testjob/testjob_submit.sh</code></dt>
+  <dt><code>Command=/home/ralphie/testjob/testjob_submit.sh</code></dt>
 
-<dd>The command that will be executed on the head node to start the
-  job. (See <code>BatchHost</code>, above.)</dd>
+  <dd>The command that will be executed on the head node to start the
+    job. (See <code>BatchHost</code>, above.)</dd>
 
-<dt><code>WorkDir=/home/ralphie/testjob</code></dt>
+  <dt><code>WorkDir=/home/ralphie/testjob</code></dt>
 
-<dd>The initial working directory for the job, as specified
-  by <code>--workdir</code> or <code>-D</code>. By default, this will be
-  the working directory when the job is submitted.</dd>
+  <dd>The initial working directory for the job, as specified
+    by <code>--workdir</code> or <code>-D</code>. By default, this
+    will be the working directory when the job is submitted.</dd>
 
-<dt><code>StdErr=/home/ralphie/testjob/6286.out</code></dt>
+  <dt><code>StdErr=/home/ralphie/testjob/6286.out</code></dt>
 
-<dd>The output file for the stderr stream (fd 2) of the main process
-  of the job, running on the head node. Set by <code>--output</code>
-  or <code>-o</code>, or explicitly by <code>--error</code>
-  or <code>-e</code>.</dd>
+  <dd>The output file for the stderr stream (fd 2) of the main process
+    of the job, running on the head node. Set by <code>--output</code>
+    or <code>-o</code>, or explicitly by <code>--error</code>
+    or <code>-e</code>.</dd>
 
-<dt><code>StdIn=/dev/null</code></dt>
+  <dt><code>StdIn=/dev/null</code></dt>
 
-<dd>The input file for the stdin stream (fd 0) of the main process of
-  the job, running on the head node. Set to <code>/dev/null</code> by
-  default, but can be configured with <code>--input</code>
-  or <code>-i</code>.</dd>
+  <dd>The input file for the stdin stream (fd 0) of the main process
+    of the job, running on the head node. Set
+    to <code>/dev/null</code> by default, but can be configured
+    with <code>--input</code> or <code>-i</code>.</dd>
 
-<dt><code>StdOut=/home/ralphie/testjob/6286.out</code></dt>
+  <dt><code>StdOut=/home/ralphie/testjob/6286.out</code></dt>
 
-<dd>The output file for the stdout stream (fd 1) of the main process
-  of the job, running on the head node. Set by <code>--output</code>
-  or <code>-o</code>.</dd>
+  <dd>The output file for the stdout stream (fd 1) of the main process
+    of the job, running on the head node. Set by <code>--output</code>
+    or <code>-o</code>.</dd>
 </dl>

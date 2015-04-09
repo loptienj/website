@@ -1,12 +1,12 @@
 <meta charset="utf-8">
 
 <p>There are three different mechanisms by which MPI jobs may be
-dispatched using Slurm. The recommended mechanism
-uses <code><a href="http://www.schedmd.com/slurmdocs/srun.html">srun</a></code>
-to directly launch tasks and initialize inter-process
-communication. More information on other mechanisms is available in
-the Slurm <a href="http://slurm.schedmd.com/mpi_guide.html">MPI and
-UPC Users Guide</a>.</p>
+  dispatched using Slurm. The recommended mechanism
+  uses <code><a href="http://www.schedmd.com/slurmdocs/srun.html">srun</a></code>
+  to directly launch tasks and initialize inter-process
+  communication. More information on other mechanisms is available in
+  the Slurm <a href="http://slurm.schedmd.com/mpi_guide.html">MPI and
+  UPC Users Guide</a>.</p>
 
 <h2>MPI dispatch with <code>srun</code></h2>
 
@@ -15,8 +15,8 @@ UPC Users Guide</a>.</p>
   with a ten-minute time limit.</p>
 
 <p>More information about MPI is available in the documentation for
-<a href="../mpi-distributed-programming.html">MPI and distributed
-programming</a>.</p>
+  <a href="../mpi-distributed-programming.html">MPI and distributed
+    programming</a>.</p>
 
 <h3>Intel MPI</h3>
 
@@ -76,10 +76,10 @@ srun --mpi=pmi2 mpi_test</code></pre>
 <h2>Multiple program, multiple data (MPMD)</h2>
 
 <p>Slurm supports multi-program MPI through the use of
-the <code>--multi-prog</code> argument to <code>srun</code>. In this
-case, the executable supplied to <code>srun</code> is expected to be a
-configuration file that maps MPI ranks to executables and
-arguments.</p>
+  the <code>--multi-prog</code> argument to <code>srun</code>. In this
+  case, the executable supplied to <code>srun</code> is expected to be
+  a configuration file that maps MPI ranks to executables and
+  arguments.</p>
 
 <pre><code># mpmd-example.conf
 
@@ -87,12 +87,11 @@ arguments.</p>
 10-24 ./b.out</code></pre>
 
 <p>Compared to the above SPMD examples, simply modify
-the <code>srun</code> command to run with the defined MPMD
+  the <code>srun</code> command to run with the defined MPMD
   configuration.</p>
 
 <pre><code>srun --multi-prog mpmd-example.conf</code></pre>
 
 <p>More information is available in
-the <a href="http://www.schedmd.com/slurmdocs/srun.html"><code>srun</code>
-manpage</a>, under the heading "MULTIPLE PROGRAM
-CONFIGURATION."</p>
+  the <a href="http://www.schedmd.com/slurmdocs/srun.html"><code>srun</code>
+  manpage</a>, under the heading "MULTIPLE PROGRAM CONFIGURATION."</p>
