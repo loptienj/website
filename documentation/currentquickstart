@@ -1,0 +1,58 @@
+Please complete the following steps to get started with Research Computing.
+
+<ol class="quickstartsteps">
+<li> <span>Request an account</span><br>
+Fill out the online request to obtain an RC account. 
+<p>
+<div class="color2 button2 btn-warning">
+<a href="https://portals.rc.colorado.edu/account/request/" target="_blank">Request an Account</a>
+</div>
+</p>
+<li> <span>Acquire an OTP device</span>
+<p>
+You will need to show your BuffOne card or other state-issued ID when you pick up your authenticator.  
+Available in two locations: <br>
+1) OIT help desk in the TLC (Telecom) building. To request an OTP device from OIT, please fill out the online form here: http://oit.colorado.edu/otp before visiting the help desk pick to up an authenticator. <br>
+2) RC offices on East Campus.  Email rc-help@colorado.edu to set up an appointment on East Campus.
+</p>
+<p>
+NCAR users: please use your Yubikey or Cryptocard.<br>
+Users who cannot pick up a device in person please contact  rc-help@colorado.edu.
+</p>
+
+<li>
+<div class="color2 button2 btn-warning" style="width: 250px;">
+<a href="https://otp.colorado.edu/" target="_blank">Register and Test your OTP</a>
+</div>
+
+<li><span>Login to your Account</span>
+<p>
+Please see the <a href="crcdocs/login">login</a> page of our <a href="/node/165">User Guide</a> for detailed instructions.
+</p>
+
+
+<li><span>Request an Allocation</span>
+<p>
+If you plan to use computational resources, a 'Startup' or 'Testing' compute time allocation of 50K SU (50,000 CPU Hours) is available to all users.  Users can request or be added to larger 'Project' allocations as well.  If you are already working with a PI who has an allocation, have them email us at rc-help@colorado.edu to request that you be added to it.  Otherwise click below to request your own allocation.
+</p>
+<p><div class="color2 button2 btn-warning" >
+<a href="https://portals.rc.colorado.edu/allocation/request/" target="_blank">Request an Allocation</a>
+</div>
+</p>
+<li> <span>Accessing the PetaLibrary</span><br>
+If you are interested in learning more about the PetaLibrary Storage service please visit the <a href="/services/storage/petalibrary">PetaLibrary</a> page for more information
+<p>
+
+</ol>
+
+
+<!--
+<script>
+jQuery(document).ready(function() {  
+jQuery('.showhide dd.moreinfo').hide();
+jQuery('.showhide dt').hover(function(){jQuery(this).addClass('hover')},function(){jQuery(this).removeClass('hover')}).click(function(){
+  jQuery(this).next().slideToggle('normal');
+});
+});
+</script>
+-->
