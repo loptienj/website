@@ -1,0 +1,84 @@
+<meta charset="utf-8">
+
+<p>The PetaLibrary is a National Science Foundation-subsidized service
+  for the storage, archival, and sharing of research data, housed in
+  the Space Sciences data center at CU-Boulder. It provides both
+  active (disk) and archive (disk+tape HSM) storage for a modest fee
+  to any US-based researcher affiliated with the University of
+  Colorado Boulder, and supports Globus / GridFTP for convenient
+  high-performance data transfer into and out of the PetaLibrary.</p>
+
+<h2>Complete the End User Agreement and Order Form</h2>
+
+<p>Access to
+  the <a href="../user-guide/storage.html#petalibrary">PetaLibrary</a>
+  is moderated by an End User Agreement, included as APPENDIX A in
+  the <a href="https://www.rc.colorado.edu/sites/default/files/PetalibraryMOU.pdf">PetaLibrary
+  Memorandum of Understanding</a>. Complete this form and the Order
+  Form (APPENDIX B), and send them both
+  to <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a>.</p>
+
+<p>Once your order has been processed, your storage will be made
+  available as part of the greater Research Computing filesystem
+  hierarchy, and the path to your allocated storage will be provided
+  to you. This path will be accessible from most Research Computing
+  resources,
+  including <a href="../user-guide/compute-resources.html#janus">Janus</a>
+  and the <a href="../user-guide/remote-access.html">login
+  nodes</a>.</p>
+
+<h2>Get a globus account</h2>
+
+<p>To use Globus Connect, you will first need to sign up for an
+  account at <a href="https://www.globus.org/">Globus.org</a>. Once you have a Globus.org account, you can (optionally) associate your CU IdentiKey with your account: from the
+  <a href="https://www.globus.org/SignIn">SignIn</a> page, follow the
+  "alternate login" link and select "InCommon" from the
+  available choices.</p>
+
+<h2>Install Globus Connect</h2>
+
+<p>Download and
+  install <a href="https://www.globus.org/globus-connect-personal">Globus
+  Connect Personal</a>, which serves as a Globus endpoint on your
+  local workstation. (Globus Connect is available for Mac Os X, Linux,
+  and Windows.)</p>
+
+<p>With Globus Connect running, you can transfer data between your
+  local workstation (e.g., your laptop or desktop) and The PetaLibrary
+  using the globus.org web interface.</p>
+
+<ol>
+  <li>Log in to Globus.org</li>
+
+  <li>Use
+     the <a href="https://www.globus.org/xfer/ManageEndpoints/">Manage
+     Endpoints</a> interface to “add Globus Connect Personal” as an
+     endpoint.
+     (<a href="https://support.globus.org/entries/23879396">More
+     information at Globus.org support.</a>)</li>
+  <li><a href="https://www.globus.org/xfer/StartTransfer">Transfer
+      Files</a>, using your new workstation endpoint for one side of
+      the transfer, the Research Computing endpoint
+      (<code>colorado#gridftp</code>) for the other side. (You will be
+      required to authenticate to the Research Computing endpoint
+      using your RC account and OTP.)</li>
+</ol>
+
+<h2>Next steps</h2>
+
+<p>Now that you can access your PetaLibrary storage and transfer
+  files, you may want to read a bit more from
+  the <a href="../user-guide">User Guide</a>.</p>
+
+<ul>
+  <li><a href="../user-guide/file-transfer.html">More information on
+      transferring files into and out of the Research Computing
+      environment</a></li>
+  <li><a href="../user-guide/storage.html">More information on the
+      storage systems available at Research Computing, including the
+      PetaLibrary</li>
+  <li><a href="../user-guide/remote-access.html">More information on
+      accessing Research Computing systems remotely</a></li>
+  <li><a href="../user-guide/faq.html">A collection of frequently
+      asked questions and their answers</a></li>
+</ul>
