@@ -45,7 +45,9 @@
 <h3>Example batch job script: <code>hello-world.sh</code></h3>
 
 <pre><code>#!/bin/bash
-#SBATCH --ntasks 1 #SBATCH --output hello-world.out #SBATCH --qos janus-debug
+#SBATCH --ntasks 1
+#SBATCH --output hello-world.out
+#SBATCH --qos janus-debug
 
 echo "Running on $(hostname --fqdn): echo 'Hello, world!'</code></pre>
 
