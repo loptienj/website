@@ -95,3 +95,37 @@ srun --mpi=pmi2 mpi_test</code></pre>
 <p>More information is available in
   the <a href="http://www.schedmd.com/slurmdocs/srun.html"><code>srun</code>
   manpage</a>, under the heading "MULTIPLE PROGRAM CONFIGURATION."</p>
+
+<h2>Custom task geometry</h2>
+<p>
+If your MPI program requires a custom task geometry you will need to redefine
+the environment variable <code>SLURM_TASKS_PER_NODE</code> and use
+<code>mpiexec</code> to execute you program.
+</p>
+<p>
+In this case we request 4 nodes with 12 tasks per node giving a total of
+48 tasks. However we want the root rank (<code>rank 0</code>) to run on
+the first node by itself, then the next two nodes to run 12 tasks each
+(<code>ranks 1-12</code>) and last node to run 6 tasks only
+(<code>ranks 13-18</code>).
+</p>
+<pre>
+<code>
+#!/bin/bash
+
+#SBATCH --job-name mpi_test
+#SBATCH --qos janus
+#SBATCH --nodes 4
+#SBATCH --ntasks-per-node 12
+#SBATCH --time 00:10:00
+#SBATCH --output mpi_test.out
+
+# the slurm module provides the srun command
+module load slurm
+
+module load intel/impi-13.0.0
+
+export SLURM_TASKS_PER_NODE='1,12(x2),6'
+mpiexec ./mpi_test
+</code>
+</pre>
