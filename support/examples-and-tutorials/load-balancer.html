@@ -18,9 +18,9 @@
 <ol>
   <li>Create the <code>cmd_lines</code> file in the directory you created.
 
-    <pre><code>$ for  i in {1..100} ; do
-> echo "sleep 2; echo hostname $i" >> cmd_lines
-> done</code></pre>
+    <pre><code>$ for  i in {1..100} ; do \
+ echo "sleep 2; echo process $i" >> cmd_lines ; \
+ done</code></pre>
   </li>
 
   <li>Load the load balancer module.
@@ -30,6 +30,7 @@
 
   <li>Submit your job, for example using srun.
 
-    <pre><code>$ srun lb cmd_lines</code></pre>
+    <pre><code>$ module load slurm</code></pre>
+    <pre><code>$ srun -N 1 --ntasks-per-node=12 lb cmd_lines</code></pre>
   </li>
 </ol>
