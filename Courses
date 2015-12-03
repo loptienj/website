@@ -1,25 +1,27 @@
 <meta charset="utf-8">
 
-<p>Using RC resources for coursework
-Instructors wishing to use RC resources should contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a> well in advance with the following information:
-<ul>Course Name and number
+<p>Using RC resources for coursework</p>
+<p>Instructors wishing to use RC resources should contact <a href="mailto:rc-help@colorado.edu">rc-help@colorado.edu</a> well in advance of the first day of class with the following information:
+<ul>
+<li>Course Name and number</li>
 <li>Approximate number of students</li>
 <li>Names of any TAs who will be helping with support</li>
-<li>Estimate of resources needed (CPU hours) if known</li>
+<li>Estimate of resources needed (CPU hours, any special resources such as GPU or High Memory nodes) if known</li>
 </ul></p>
-<p>The instructor should provide the list of class usernames (from D2L) to rc-help before the class users are expected to be logging in as well as any drops and adds.</p>
+<p>The instructor should provide the list of student usernames (from D2L) to rc-help before the class users are expected to be logging in.  RC will also need to be informed of students who drop or add should be after the class list has been sent to RC as they will need to be added or removed from the class allocation.</p>
 
-<p>Instructors must inform the students that they should get RC accounts but to deviate from the normal procedure, which is designed for researchers and not course users. Instead they should be instructed to:
+<p>Instructors must inform the students that they should get RC accounts but that they should  deviate from the normal procedure, which is designed for researchers and not course users. <br>
+Instead students should be instructed to:
 <ul>
-<li>Get an RC account via the <a href="https://portals.rc.colorado.edu/account/request/>Account Request Portal</a> at https://portals.rc.colorado.edu/account/request/</li>
+<li>Get an RC account via the <a href="https://portals.rc.colorado.edu/account/request/">Account Request Portal</a> at https://portals.rc.colorado.edu/account/request/</li>
 <li>Wait to get an OTP device or other authentication method in class, and NOT go to the helpdesk for an OTP device</li>
 <li>Not get a Startup allocation, a class allocation will be provided</li>
 </ul></p>
 
-<p>Students should also be made aware which questions and issues to direct to an instructor/TA and which are appropriate to email to rc-help@colorado.edu and how to check the RC website for issues, outages, downtimes, etc. before requesting help.</p>
+<p>Students should also be made aware which questions and issues to direct to an instructor/TA and which are appropriate to email to rc-help@colorado.edu and how to check the RC website for current issues, outages, downtimes, etc. before requesting help.</p>
 
 <p>After the class begins a member of RC will visit the class to help with the authentication method, give a 15-20 minute talk on the appropriate use of RC resources and to answer questions.</p>
 
-<p>Instructors and TAs should note the regular schedule for RC maintenance downtimes, typically the 1st Wednesday of every month, and also subscribe to to our announcement list to be informed of all downtimes and outages.  This list can be joined via email to rc-announce-join@colorado.edu </p>
+<p>Instructors and TAs should note the regular schedule for RC maintenance downtimes, typically the 1st Wednesday of every month, and also subscribe to to our announcement list to be informed of all downtimes and outages.  This list can be joined via email to <a href="mailto:rc-announce-join@colorado.edu">rc-announce-join@colorado.edu</a> </p>
 
 <p>Outages should be communicated to the class. Class users can be told to subscribe to rc-announce (and to unsubscribe after the class is over, if desired) or the instructor/TA can forward RC outage announcements to the class email list in a timely manner.</p>
